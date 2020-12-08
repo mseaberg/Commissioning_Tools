@@ -39,7 +39,7 @@ class YagAlign:
 
         # assume that the data coming in is already pretty well-centered
         ims = {}
-        data = np.fliplr(data)
+        #data = np.fliplr(data)
         # crop out one corner
         ims[0] = data[0:200, 0:200]
         # get the average border value
@@ -135,7 +135,9 @@ class YagAlign:
         # log-polar coordinate system
         r1 = np.linspace(0, np.log(self.Nt / 8) / np.log(self.logbase), 128)
         r1p = np.linspace(0, np.log(self.Nt / 8) / np.log(self.logbase), 128)
-        theta1 = np.linspace(-np.pi / 2, np.pi / 2, 181)
+        #theta1 = np.linspace(-np.pi / 2, np.pi / 2, 181)
+        theta1 = np.linspace(-np.pi/36, np.pi/36, 11)
+        #theta1 = np.linspace(-10*np.pi/180, 10*np.pi/180, 21)
         r1, theta1 = np.meshgrid(r1, theta1)
 
         r2 = np.exp(r1 * np.log(self.logbase))
@@ -171,15 +173,18 @@ class YagAlign:
         # find correlation peak
         peak = np.unravel_index(np.argmax(cps_real), cps_real.shape)
         # determine rotation from peak location
-        theta_offset = theta1[peak[0], 0] * 180 / np.pi + 90
+        theta_offset = theta1[peak[0], 0] * 180 / np.pi + 5
+        #theta_offset = theta1[peak[0], 0] * 180 / np.pi
         # determine zoom from peak location
         scale = self.logbase ** r1p[peak[1]]
 
         # get theta nearest to zero
-        if theta_offset > 45:
-            theta_offset = 90 - theta_offset
-        if theta_offset < 45:
-            theta_offset = 90 - theta_offset
+        if theta_offset>45:
+            theta_offset = 90-theta_offset
+        #if theta_offset > 45:
+        #    theta_offset = 90 - theta_offset
+        #if theta_offset < 45:
+        #    theta_offset = 90 - theta_offset
 
         # get background value of image
         bgval = self.get_borderval(img)

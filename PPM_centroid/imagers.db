@@ -16,11 +16,10 @@
         "focus": 0,
         "ND": "T100",
         "AcquireTime": 0.008,
-        "FOV": 5.0,
+        "FOV": 0,
         "z": 746.0,
         "cx": 0,
-        "cy": 0,
-        "FOV": 0
+        "cy": 0
     },
     "IM2L0": {
         "pixel": 4.866571293575977,
@@ -60,7 +59,7 @@
         "ND": "T50",
         "AcquireTime": 0.001,
         "orientation": "action180",
-        "z": 734.340,
+        "z": 734.34,
         "cx": 0,
         "cy": 0
     },
@@ -104,5 +103,45 @@
         "pixel": 5.5,
         "cx": 229,
         "cy": 1545
+    },
+    "IM1K1": {
+        "pixel": 4.572402330117336,
+        "orientation": "action0",
+        "FOV": 8.5,
+        "z": 758.889,
+        "cx": 0,
+        "cy": 0
+    },
+    "IM2K1": {
+        "pixel": 4.563271243294956,
+        "orientation": "action0",
+        "FOV": 8.5,
+        "z": 758.889,
+        "cx": 0,
+        "cy": 0
+    },
+    "IM1K2": {
+        "pixel": 4.570425124768908,
+        "orientation": "action0",
+        "FOV": 8.5,
+        "z": 758.889,
+        "cx": 0,
+        "cy": 0
+    },
+    "MONO_03": {
+        "pixel": 1,
+        "orientation": "action0",
+        "FOV": 1.0,
+        "z": 0.0,
+        "cx": 0,
+        "cy": 0
+    },
+    "MONO_04": {
+        "pixel": 0.5,
+        "orientation": "action0",
+        "FOV": 1.0,
+        "z": 0.0,
+        "cx": 0,
+        "cy": 0
     }
 }

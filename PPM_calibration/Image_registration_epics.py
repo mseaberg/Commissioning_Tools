@@ -752,7 +752,7 @@ class RunRegistration(QtCore.QObject):
 
     def get_image(self):
         try:
-            img = np.array(self.gige.image2.image,dtype='float')
+            img = np.array(self.gige.image1.image,dtype='float')
             print(np.max(img))
             return img
         except:

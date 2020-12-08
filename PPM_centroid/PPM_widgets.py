@@ -1022,14 +1022,23 @@ class ImageRegister:
             #self.circ4.setRect(center[3,1]-scale[3]*rwidth,center[3,0]-scale[3]*rwidth,
             #    2*rwidth*scale[3],2*rwidth*scale[3])
             
-            self.circ_tl.setRect(-center[3,1]-scale[3]*rwidth,-center[3,0]-scale[3]*rwidth,
-                2*rwidth*scale[3],2*rwidth*scale[3])
-            self.circ_tr.setRect(-center[2,1]-scale[2]*rwidth,-center[2,0]-scale[2]*rwidth,
+            #self.circ_tl.setRect(-center[3,1]-scale[3]*rwidth,-center[3,0]-scale[3]*rwidth,
+            #    2*rwidth*scale[3],2*rwidth*scale[3])
+            #self.circ_tr.setRect(-center[2,1]-scale[2]*rwidth,-center[2,0]-scale[2]*rwidth,
+            #    2*rwidth*scale[2],2*rwidth*scale[2])
+            #self.circ_bl.setRect(-center[1,1]-scale[1]*rwidth,-center[1,0]-scale[1]*rwidth,
+            #    2*rwidth*scale[1],2*rwidth*scale[1])
+            #self.circ_br.setRect(-center[0,1]-scale[0]*rwidth,-center[0,0]-scale[0]*rwidth,
+            #    2*rwidth*scale[0],2*rwidth*scale[0])
+            
+            self.circ_tl.setRect(center[2,1]-scale[2]*rwidth,-center[2,0]-scale[2]*rwidth,
                 2*rwidth*scale[2],2*rwidth*scale[2])
-            self.circ_bl.setRect(-center[1,1]-scale[1]*rwidth,-center[1,0]-scale[1]*rwidth,
-                2*rwidth*scale[1],2*rwidth*scale[1])
-            self.circ_br.setRect(-center[0,1]-scale[0]*rwidth,-center[0,0]-scale[0]*rwidth,
+            self.circ_tr.setRect(center[3,1]-scale[3]*rwidth,-center[3,0]-scale[3]*rwidth,
+                2*rwidth*scale[3],2*rwidth*scale[3])
+            self.circ_bl.setRect(center[0,1]-scale[0]*rwidth,-center[0,0]-scale[0]*rwidth,
                 2*rwidth*scale[0],2*rwidth*scale[0])
+            self.circ_br.setRect(center[1,1]-scale[1]*rwidth,-center[1,0]-scale[1]*rwidth,
+                2*rwidth*scale[1],2*rwidth*scale[1])
 
 
             full_center = np.mean(center,axis=0)

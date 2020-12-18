@@ -143,7 +143,7 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
             'L1': ['IM1L1', 'IM2L1', 'IM3L1', 'IM4L1'],
             'K0': ['IM1K0', 'IM2K0'],
             'K1': ['IM1K1', 'IM2K1'],
-            'K2': ['IM1K2', 'IM2K2', 'IM3K2', 'IM4K2', 'IM5K2', 'IM6K2', 'IM7K2'],
+            'K2': ['SL1K2', 'IM1K2', 'IM2K2', 'IM3K2', 'IM4K2', 'IM5K2', 'IM6K2', 'IM7K2'],
             'K3': ['IM1K3', 'IM2K3', 'IM3K3'],
             'K4': ['IM1K4', 'IM2K4', 'IM3K4', 'IM4K4', 'IM5K4', 'IM6K4'],
             'MONO': ['MONO_03', 'MONO_04']
@@ -156,7 +156,7 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
             'L1': ['IM1L1:PPM:', 'IM2L1:PPM:', 'IM3L1:PPM:', 'IM4L1:PPM:'],
             'K0': ['IM1K0:XTES:', 'IM2K0:XTES:'],
             'K1': ['IM1K1:PPM:', 'IM2K1:PPM:'],
-            'K2': ['IM1K2:PPM:', 'IM2K2:PPM:', 'IM3K2:PPM:', 'IM4K2:PPM:', 'IM5K2:PPM:',
+            'K2': ['SL1K2:EXIT:', 'IM1K2:PPM:', 'IM2K2:PPM:', 'IM3K2:PPM:', 'IM4K2:PPM:', 'IM5K2:PPM:',
                    'IM6K2:PPM:', 'IM7K2:PPM:'],
             'K3': ['IM1K3:PPM:', 'IM2K3:PPM:', 'IM3K3:PPM:'],
             'K4': ['IM1K4:XTES:', 'IM2K4:PPM:', 'IM3K4:PPM:', 'IM4K4:PPM:', 'IM5K4:PPM:',

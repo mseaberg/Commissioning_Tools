@@ -78,7 +78,7 @@ class DataHandler:
     def plot_keys(self):
         return self.key_list
 
-    def initialize(self, PPM_object, N=1024):
+    def initialize(self, PPM_object, N=5000):
 
         self.imager = PPM_object
 

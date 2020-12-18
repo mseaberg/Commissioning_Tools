@@ -60,8 +60,8 @@
         "AcquireTime": 0.001,
         "orientation": "action180",
         "z": 734.34,
-        "cx": 0,
-        "cy": 0
+        "cx": 180,
+        "cy": 180
     },
     "IM2K4": {
         "pixel": 4.525624814314197,
@@ -106,20 +106,29 @@
     },
     "IM1K1": {
         "pixel": 4.572402330117336,
-        "orientation": "action0",
+        "orientation": "action180",
         "FOV": 8.5,
         "z": 758.889,
-        "cx": 0,
-        "cy": 0
+        "cx": -500,
+        "cy": 290
     },
     "IM2K1": {
         "pixel": 4.563271243294956,
-        "orientation": "action0",
+        "orientation": "action180",
         "FOV": 8.5,
         "z": 758.889,
-        "cx": 0,
-        "cy": 0
+        "cx": -420,
+        "cy": -555
     },
+    "SL1K2": {
+        "pixel": 4.570425124768908,
+        "orientation": "action90",
+        "FOV": 8.5,
+        "z": 758.889,
+        "cx": -1000,
+        "cy": 476
+    },
+
     "IM1K2": {
         "pixel": 4.570425124768908,
         "orientation": "action0",
@@ -137,11 +146,11 @@
         "cy": 0
     },
     "MONO_04": {
-        "pixel": 0.5,
+        "pixel": 1,
         "orientation": "action0",
         "FOV": 1.0,
         "z": 0.0,
-        "cx": 0,
-        "cy": 0
+        "cx": 100,
+        "cy": 80
     }
 }

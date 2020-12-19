@@ -53,7 +53,8 @@ class RunProcessing(QtCore.QObject):
         # initialize data handler
         self.data_handler = data_handler
 
-        
+        self.timer = None
+
         #### Start  #####################
         # self._update()
 
@@ -81,7 +82,13 @@ class RunProcessing(QtCore.QObject):
             self.PPM_object.add_fit_object(fit_object)
         self.running = True
         self.sig_initialized.emit()
-        self._update()
+
+        self.timer = QtCore.QTimer()
+        self.timer.setInterval(500)
+        self.timer.timeout.connect(self._update)
+
+        #self._update()
+        self.timer.start()
 
     def set_orientation(self, orientation):
         self.PPM_object.set_orientation(orientation)
@@ -121,12 +128,15 @@ class RunProcessing(QtCore.QObject):
 
             # keep running unless the stop button is pressed
             if self.running:
-                QtCore.QTimer.singleShot(500, self._update)
+                #QtCore.QTimer.singleShot(500, self._update)
+                pass
             else:
                 self.PPM_object.reset_camera()
                 self.sig_finished.emit()
+                self.timer.stop()
         else:
             self.sig_finished.emit()
+            self.timer.stop()
 
     def stop(self):
         self.running = False

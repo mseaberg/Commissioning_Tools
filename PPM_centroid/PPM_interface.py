@@ -751,7 +751,10 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
             self.wfsStats.update_stats(data_dict)
 
         # update centroid plots
-        self.centroid_plot.update_plots(data_dict['timestamps'], x=data_dict['cx'], y=data_dict['cy'], x_smooth=data_dict['cx_smooth'], y_smooth=data_dict['cy_smooth'])
+        # get referenc positions
+        xRef = data_dict['cx_ref']
+        yRef = data_dict['cy_ref']
+        self.centroid_plot.update_plots(data_dict['timestamps'], x=data_dict['cx']-xRef, y=data_dict['cy']-yRef, x_smooth=data_dict['cx_smooth']-xRef, y_smooth=data_dict['cy_smooth']-yRef)
         self.width_plot.update_plots(data_dict['timestamps'], x=data_dict['wx'], y=data_dict['wy'], x_smooth=data_dict['wx_smooth'], y_smooth=data_dict['wy_smooth'])
 
         self.label.setText(data_dict['tx'])

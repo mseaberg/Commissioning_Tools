@@ -223,7 +223,7 @@ class DataHandler:
 
         # update running averages
         for key in self.stripchart_smooth_keys:
-            self.running_average(key, key+'_smooth')
+            self.running_average(key[:-7], key)
 
         self.data_dict['counter'] += 1
 

@@ -764,3 +764,4 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
 
         for plot in self.plots:
             plot.update_plot(data_dict, self.data_handler.plot_keys())
+

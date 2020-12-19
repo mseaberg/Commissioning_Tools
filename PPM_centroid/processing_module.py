@@ -105,8 +105,9 @@ class RunProcessing(QtCore.QObject):
                 focus_z = 0.0
 
             # get latest image
-            self.PPM_object.get_image(angle=angle)
 
+            self.PPM_object.get_image(angle=angle)
+    
             # wavefront sensing
             if self.WFS_object is not None:
                 wfs_data, wfs_param = self.PPM_object.retrieve_wavefront(self.WFS_object, focusFOV=focusFOV, focus_z=focus_z)

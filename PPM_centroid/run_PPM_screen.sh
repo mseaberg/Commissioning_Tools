@@ -1,5 +1,5 @@
 #!/bin/env bash
-source /cds/home/s/seaberg/setup_python.sh
+source /cds/home/s/seaberg/setup_dev_python.sh
 
 cd /cds/home/s/seaberg/dev/Commissioning_Tools/PPM_centroid
 

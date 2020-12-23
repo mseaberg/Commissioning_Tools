@@ -24,6 +24,7 @@ Ui_MainWindow, QMainWindow = loadUiType('PPM_screen.ui')
 
 class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
     kill_sig = QtCore.pyqtSignal()
+    reset_sig = QtCore.pyqtSignal()
 
     def __init__(self, parent=None, args=None):
         super(PPM_Interface, self).__init__()
@@ -40,6 +41,7 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         # button to start calibration
         self.calibrateButton.clicked.connect(self.calibrate)
         self.alignmentButton.clicked.connect(self.align_focus)
+        self.actionReset_Plots.triggered.connect(self.reset_plots)
 
         self.plotButton.clicked.connect(self.make_new_plot)
         # method to save an image. Maybe replace and/or supplement this with image "recording" in the future
@@ -503,6 +505,9 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
     def quit_thread(self):
         self.thread.quit()
 
+    def reset_plots(self):
+        self.reset_sig.emit()
+
     def change_state(self):
         """
         Method to start the calculation running, or stop it.
@@ -566,6 +571,7 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
             self.thread.started.connect(self.processing.run)
             self.thread.finished.connect(self.enable_run_button)
             self.kill_sig.connect(self.processing.stop)
+            self.reset_sig.connect(self.processing.reset_plots)
             self.processing.sig_finished.connect(self.quit_thread)
 
             # start processing

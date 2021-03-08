@@ -321,7 +321,8 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
             self.enable_align()
 
     def enable_align(self):
-        self.alignmentButton.setEnabled(True)
+        if self.wfs_name=='PF1K4':
+            self.alignmentButton.setEnabled(True)
 
     def make_new_plot(self):
         plot_window = PPM_widgets.NewPlot(self, self.data_handler.plot_keys())
@@ -498,7 +499,8 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         self.runButton.setEnabled(True)
         self.statusbar.clearMessage()
         if self.runButton.text() == 'Stop':
-            self.alignmentButton.setEnabled(True)
+            #self.alignmentButton.setEnabled(True)
+            self.enable_align()
 
     def quit_thread(self):
         self.thread.quit()

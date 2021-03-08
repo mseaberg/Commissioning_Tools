@@ -444,6 +444,7 @@ class LineoutImage(QLineoutImage, Ui_LineoutImage):
         self.view.setAspectLocked(True)
         # add an image
         self.img = pg.ImageItem(border='w')
+        self.img.setOpts(axisOrder='row-major')
         self.view.addItem(self.img)
 
         # set default colormap

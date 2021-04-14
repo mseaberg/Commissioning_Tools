@@ -90,6 +90,9 @@ class RunProcessing(QtCore.QObject):
         #self._update()
         self.timer.start()
 
+    def save_data(self, filename):
+        self.data_handler.save_data(filename)
+
     def reset_plots(self):
         self.data_handler.reset_data()
 

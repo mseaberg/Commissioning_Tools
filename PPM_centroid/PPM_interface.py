@@ -26,6 +26,8 @@ Ui_MainWindow, QMainWindow = loadUiType('PPM_screen.ui')
 
 class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
     kill_sig = QtCore.pyqtSignal()
+    reset_sig = QtCore.pyqtSignal()
+    save_sig = QtCore.pyqtSignal(str)
 
     def __init__(self, parent=None, args=None):
         super(PPM_Interface, self).__init__()

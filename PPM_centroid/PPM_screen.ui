@@ -27,7 +27,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="centroidTab">
        <attribute name="title">
@@ -606,6 +606,38 @@
          </property>
         </widget>
        </item>
+       <item row="0" column="1">
+        <widget class="PyDMLabel" name="photonEnergyLabel">
+         <property name="toolTip">
+          <string/>
+         </property>
+         <property name="text">
+          <string>519.6 eV</string>
+         </property>
+         <property name="precision" stdset="0">
+          <number>1</number>
+         </property>
+         <property name="showUnits" stdset="0">
+          <bool>true</bool>
+         </property>
+         <property name="precisionFromPV" stdset="0">
+          <bool>false</bool>
+         </property>
+         <property name="channel" stdset="0">
+          <string>ca://PMPS:KFE:PE:UND:CurrentPhotonEnergy_RBV</string>
+         </property>
+         <property name="buddy">
+          <cstring></cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Photon Energy:</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -627,6 +659,7 @@
     <addaction name="actionSave"/>
     <addaction name="actionAlignment_Screen"/>
     <addaction name="actionSave_with_hdf5_plugin"/>
+    <addaction name="actionPost_to_elog"/>
    </widget>
    <widget class="QMenu" name="menuOrientation">
     <property name="title">
@@ -763,8 +796,18 @@
     <string>Save Images</string>
    </property>
   </action>
+  <action name="actionPost_to_elog">
+   <property name="text">
+    <string>Post to elog</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>PyDMLabel</class>
+   <extends>QLabel</extends>
+   <header>pydm.widgets.label</header>
+  </customwidget>
   <customwidget>
    <class>GraphicsLayoutWidget</class>
    <extends>QGraphicsView</extends>

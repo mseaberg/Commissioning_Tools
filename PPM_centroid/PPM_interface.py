@@ -19,6 +19,8 @@ from Image_registration_epics import App
 import PPM_widgets
 from imager_data import DataHandler
 from motion_module import Calibration, Alignment
+from io_module import ImagerHdf5, ElogHandler
+from subprocess import check_output
 
 Ui_MainWindow, QMainWindow = loadUiType('PPM_screen.ui')
 
@@ -46,6 +48,8 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         self.actionSave.triggered.connect(self.save_image)
         # open alignment screen for calculating center and pixel size
         self.actionAlignment_Screen.triggered.connect(self.run_alignment_screen)
+        self.actionSave_with_hdf5_plugin.triggered.connect(self.save_hdf5)
+        self.actionPost_to_elog.triggered.connect(self.elog_post)
 
         # adjustment for amount of time to show on plots (this should be cleaned up later)
         self.plotRangeLineEdit.returnPressed.connect(self.set_time_range)
@@ -131,8 +135,11 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         # make a list of all the plots
         self.all_plots = [self.centroid_plot, self.width_plot, self.focus_plot, self.rms_plot]
 
+        # get hutch
+        self.hutch = check_output('get_curr_exp').decode('utf-8').replace('\n','')[:3]
+
         # initialize data handler
-        self.data_handler = DataHandler()
+        self.data_handler = DataHandler(self.hutch)
 
         # list of beamlines
         self.line_list = ['L0', 'L1', 'K0', 'K1', 'K2', 'K3', 'K4', 'MONO']
@@ -202,7 +209,6 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         cam_index = self.imager_list.index(cam)
         print(cam_index)
 
-
         # set wavefront sensor attribute
         self.wfs_name = None
 
@@ -211,7 +217,10 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         self.imagerpv = self.imagerpv_list[cam_index]
         self.imagerComboBox.clear()
         self.imagerComboBox.addItems(self.imager_list)
-        
+       
+        # hdf5 object
+        self.imager_h5 = ImagerHdf5(prefix=self.imagerpv, name=self.imager)
+
         # disable wavefront checkbox by default since IM1L0 doesn't have a WFS
         self.wavefrontCheckBox.setEnabled(False)
 
@@ -222,6 +231,9 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         # more initialization...
         self.lineComboBox.setCurrentIndex(line_index)
         self.imagerComboBox.setCurrentIndex(cam_index)
+
+        # try to initialize elog
+        self.elog_handler = ElogHandler()
 
         # initialize registration object
         self.processing = None
@@ -401,6 +413,25 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         with open('imagers.db', 'w') as outfile:
             json.dump(data, outfile, indent=4)
 
+    def elog_post(self):
+        self.elog_handler.post_stats(self.imager, self.imagerControls, self.imagerStats)
+
+
+    def save_hdf5(self):
+        # get state
+        state = self.imagerControls.yStateReadback.text()
+        
+        # get timestamp
+        timestamp = datetime.now()
+        date_str = str(timestamp.date())
+        time_str = timestamp.time().isoformat(timespec='seconds')
+        time_string = '%s_%s' % (date_str, time_str)
+        #basename = '%s_trajectory_%s' % (self.imager, time_string)
+        basename = '%s_%s' % (state, time_string)
+        self.imager_h5.prepare(baseName=basename, nImages=10)
+        self.imager_h5.write()
+
+
     def set_time_range(self, time_range=10.0):
         """
         Method to set the time range of the centroid, etc plots.
@@ -464,6 +495,11 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         self.imagerComboBox.addItems(self.imager_list)
         self.change_imager(0)
 
+        if 'L' in self.line:
+            self.photonEnergyLabel.channel = 'ca://PMPS:LFE:PE:UND:CurrentPhotonEnergy_RBV'
+        else:
+            self.photonEnergyLabel.channel = 'ca://PMPS:KFE:PE:UND:CurrentPhotonEnergy_RBV' 
+
     def change_imager(self, index):
         """
         Method to change settings based on selection of a new imager
@@ -490,6 +526,10 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
 
         self.imagerpv = self.imagerpv_list[index]
         self.imagerControls.change_imager(self.imagerpv)
+
+        # hdf5 object
+        self.imager_h5 = ImagerHdf5(prefix=self.imagerpv, name=self.imager)
+
         self.wfsControls.change_wfs(self.wfs_name)
         # uninitialize data handler
         self.data_handler.uninitialize()

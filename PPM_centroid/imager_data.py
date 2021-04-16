@@ -8,7 +8,7 @@ class DataHandler:
     """
     Class to manage the data being passed between objects, functions
     """
-    def __init__(self):
+    def __init__(self, hutch):
         """
         Method to initialize the data handler class
         """
@@ -54,7 +54,7 @@ class DataHandler:
         self.wfs_image_keys = ['focus', 'F0', 'wave']
 
         # read file with PV names
-        self.filename = '/cds/home/s/seaberg/Commissioning_Tools/PPM_centroid/epics_pvs.txt'
+        self.filename = '/cds/home/s/seaberg/Commissioning_Tools/PPM_centroid/pv_lists/{}_pvs.txt'.format(hutch.lower())
 
         # initialize data dictionary
         self.data_dict = {}

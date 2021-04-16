@@ -103,6 +103,11 @@ class WFSControls(Qwfs, Ui_wfs):
         self.widgets = [self.yStateReadback, self.yStateComboBox,
                 self.yPosReadback, self.yPosLineEdit, self.zPosReadback,
                 self.zPosLineEdit]
+        
+        self.fractionLineEdit.returnPressed.connect(self.set_fraction)
+
+    def set_fraction(self):
+        self.fractionReadback.setText(self.fractionLineEdit.text())
 
     def change_wfs(self, wfs_name):
        

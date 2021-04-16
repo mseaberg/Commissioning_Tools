@@ -161,7 +161,7 @@
    <item row="0" column="1">
     <widget class="PyDMLabel" name="yStateReadback">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="minimumSize">
       <size>
@@ -173,22 +173,29 @@
       <string/>
      </property>
      <property name="text">
-      <string>Unknown</string>
+      <string>OUT</string>
      </property>
      <property name="channel" stdset="0">
       <string>ca://PF1K0:WFS:MMS:STATE:GET_RBV</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="0" colspan="2">
+   <item row="3" column="2">
+    <widget class="QLineEdit" name="fractionLineEdit">
+     <property name="text">
+      <string>3</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
       <string>Talbot Fraction</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="2">
-    <widget class="QLineEdit" name="fractionLineEdit">
+   <item row="3" column="1">
+    <widget class="QLabel" name="fractionReadback">
      <property name="text">
       <string>3</string>
      </property>

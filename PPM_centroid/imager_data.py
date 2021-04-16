@@ -87,7 +87,7 @@ class DataHandler:
         self.im_M = self.imager.M
 
         # read pv keys
-        self.pv_keys = self.read_pv_names()
+        self.pv_keys, self.pv_names = self.read_pv_names()
 
         # initialize data dictionary entries
         self.reset_data()
@@ -247,12 +247,27 @@ class DataHandler:
     def read_pv_names(self):
         # read pv names from the file
         with open(self.filename) as f:
-            pv_names = f.readlines()
+            file_lines = f.readlines()
 
         # strip the whitespace
-        pv_names = [name.strip() for name in pv_names]
+        file_lines = [line.strip() for line in file_lines]
 
-        return pv_names
+        # set up keys and pv's
+        pv_keys = []
+        pv_names = []
+        for num, line in enumerate(file_lines):
+            if '*' in line:
+                try:
+                    pv_keys.append(line.replace('*',''))
+                    pv_names.append(file_lines[num+1])
+                except:
+                    pass
+            else:
+                if line not in pv_names:
+                    pv_keys.append(line)
+                    pv_names.append(line)
+
+        return pv_keys, pv_names
 
     def update_1d_data(self, dict_key, new_value):
         self.data_dict[dict_key] = np.roll(self.data_dict[dict_key], -1)
@@ -263,8 +278,8 @@ class DataHandler:
 
     def connect_epics_pvs(self):
         # add pv's to data_dict
-        for key in self.pv_keys:
-            tempSignal = SignalRO(key, auto_monitor=True)
+        for key, name in zip(self.pv_keys,self.pv_names):
+            tempSignal = SignalRO(name, auto_monitor=True)
             try:
                 tempSignal.wait_for_connection()
                 print('connected to %s' % key)

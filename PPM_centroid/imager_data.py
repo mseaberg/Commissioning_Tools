@@ -238,6 +238,20 @@ class DataHandler:
             fps = 1.0
         tx = 'Mean Frame Rate:  {fps:.3f} FPS'.format(fps=fps)
         self.data_dict['tx'] = tx
+ 
+    def save_data(self, filename):
+        """
+        Method to dump the current data buffer into a file
+        """
+        #data_frame = pd.DataFrame(self.data_dict)
+        #data_frame.to_hdf(filename, 'df')
+        mask = np.logical_not(np.isnan(self.data_dict['timestamps']))
+        with h5py.File(filename,'a') as f:
+            for key in self.key_list:
+                data = self.data_dict[key][mask]
+                f.create_dataset(key, data, dtype='float')
+                print('saved data to %s' % filename)
+
 
     def update_wfs_data(self, wfs_data):
         for key in wfs_data.keys():

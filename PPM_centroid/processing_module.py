@@ -86,6 +86,9 @@ class RunProcessing(QtCore.QObject):
     def save_data(self, filename):
         self.data_handler.save_data(filename)
 
+    def reset_plots(self):
+        self.data_handler.reset_data()
+
     def set_orientation(self, orientation):
         self.PPM_object.set_orientation(orientation)
 

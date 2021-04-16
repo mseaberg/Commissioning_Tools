@@ -265,6 +265,20 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
     def enable_calibrate(self):
         self.calibrateButton.setEnabled(True)
 
+    def save_data(self):
+        """
+        Method to get a filename for saving data, and send a signal
+        to save the data
+        """
+        formats = 'HDF5 file (*.h5)'
+        filename = QtGui.QFileDialog.getSaveFileName(self,
+                                                    'Save Data', 'untitled.h5', formats)
+
+        if not filename[0] == '':
+            filename = PPM_Interface.get_filename(filename, fmt='.h5')
+            self.save_sig.emit(filename)
+
+
     def align_focus(self):
 
         # get current z position goals

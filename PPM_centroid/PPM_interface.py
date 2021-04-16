@@ -42,6 +42,8 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         # button to start calibration
         self.calibrateButton.clicked.connect(self.calibrate)
         self.alignmentButton.clicked.connect(self.align_focus)
+        self.actionReset_Plots.triggered.connect(self.reset_plots)
+        self.actionSave_Data.triggered.connect(self.save_data)
 
         self.plotButton.clicked.connect(self.make_new_plot)
         # method to save an image. Maybe replace and/or supplement this with image "recording" in the future
@@ -264,20 +266,6 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
 
     def enable_calibrate(self):
         self.calibrateButton.setEnabled(True)
-
-    def save_data(self):
-        """
-        Method to get a filename for saving data, and send a signal
-        to save the data
-        """
-        formats = 'HDF5 file (*.h5)'
-        filename = QtGui.QFileDialog.getSaveFileName(self,
-                                                    'Save Data', 'untitled.h5', formats)
-
-        if not filename[0] == '':
-            filename = PPM_Interface.get_filename(filename, fmt='.h5')
-            self.save_sig.emit(filename)
-
 
     def align_focus(self):
 
@@ -559,6 +547,9 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
     def quit_thread(self):
         self.thread.quit()
 
+    def reset_plots(self):
+        self.reset_sig.emit()
+
     def change_state(self):
         """
         Method to start the calculation running, or stop it.
@@ -622,7 +613,9 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
             self.thread.started.connect(self.processing.run)
             self.thread.finished.connect(self.enable_run_button)
             self.kill_sig.connect(self.processing.stop)
+            self.reset_sig.connect(self.processing.reset_plots)
             self.processing.sig_finished.connect(self.quit_thread)
+            self.save_sig.connect(self.processing.save_data)
 
             # start processing
             self.thread.start()
@@ -683,6 +676,19 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         image = np.array(image,dtype='uint8')
         return image
 
+    def save_data(self):
+        """
+        Method to get a filename for saving data, and send a signal
+        to save the data
+        """
+        formats = 'HDF5 file (*.h5)'
+        filename = QtGui.QFileDialog.getSaveFileName(self,
+                'Save Data', 'untitled.h5', formats)
+
+        if not filename[0] == '':
+            filename = PPM_Interface.get_filename(filename, fmt='.h5')
+            self.save_sig.emit(filename)
+
     def save_image(self):
         """
         Method to save a png image based on the latest image grabbed
@@ -694,12 +700,12 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         if not filename[0] == '':
             # normalize the image and write to file
             im = App.normalize_image(self.data_handler.data_dict['profile'])
-            filename = App.get_filename(filename)
+            filename = PPM_Interface.get_filename(filename, fmt='.png')
             imageio.imwrite(filename,im)
         print(filename)
 
     @staticmethod
-    def get_filename(name):
+    def get_filename(name, fmt='png'):
         """
         Method to get the filename from QFileDialog
         Parameters
@@ -713,8 +719,8 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
             full path including file name and extension
         """
         path = name[0]
-        extension = name[1].split('*')[1][0:4]
-        if path[-4:] != extension:
+        extension = name[1].split('*')[1][0:len(fmt)]
+        if path[-len(fmt):] != extension:
             path = path + extension
         return path
 

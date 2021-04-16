@@ -83,6 +83,9 @@ class RunProcessing(QtCore.QObject):
         self.sig_initialized.emit()
         self._update()
 
+    def save_data(self, filename):
+        self.data_handler.save_data(filename)
+
     def set_orientation(self, orientation):
         self.PPM_object.set_orientation(orientation)
 

@@ -185,7 +185,7 @@ class DataHandler:
         with h5py.File(filename,'a') as f:
             for key in self.key_list:
                 data = self.data_dict[key][mask]
-                f.create_dataset(key, data, dtype='float')
+                f.create_dataset(key, data=data, dtype='float')
         print('saved data to %s' % filename)
 
 

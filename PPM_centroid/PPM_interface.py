@@ -54,6 +54,7 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         self.actionAlignment_Screen.triggered.connect(self.run_alignment_screen)
         self.actionSave_with_hdf5_plugin.triggered.connect(self.save_hdf5)
         self.actionPost_to_elog.triggered.connect(self.elog_post)
+        self.trajectoryButton.clicked.connect(self.capture_trajectory)
 
         # adjustment for amount of time to show on plots (this should be cleaned up later)
         self.plotRangeLineEdit.returnPressed.connect(self.set_time_range)
@@ -417,11 +418,28 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         with open('imagers.db', 'w') as outfile:
             json.dump(data, outfile, indent=4)
 
+    def capture_trajectory(self):
+        basename = self.get_basename()
+
+        # save images
+        image_name = self.save_hdf5(basename=basename)
+        # save data
+
+        home_path = check_output('cd ~; pwd',shell=True).decode('utf-8').replace('\n','')
+
+        data_path = home_path+'/trajectory/data/'
+        data_name = data_path+self.imager+'_'+basename + '_data.h5'
+        self.save_sig.emit(data_name)
+       
+        # post to elog
+        self.elog_handler.post_trajectory(self.imager, self.imagerControls,
+                self.imagerStats, self.photonEnergyLabel, image_name, data_name)
+
     def elog_post(self):
-        self.elog_handler.post_stats(self.imager, self.imagerControls, self.imagerStats)
+        self.elog_handler.post_stats(self.imager, self.imagerControls, self.imagerStats,
+            self.photonEnergyLabel)
 
-
-    def save_hdf5(self):
+    def get_basename(self):
         # get state
         state = self.imagerControls.yStateReadback.text()
         
@@ -432,8 +450,18 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         time_string = '%s_%s' % (date_str, time_str)
         #basename = '%s_trajectory_%s' % (self.imager, time_string)
         basename = '%s_%s' % (state, time_string)
-        self.imager_h5.prepare(baseName=basename, nImages=10)
+        
+        return basename
+
+    def save_hdf5(self, basename=None):
+        if basename is None:
+            basename = self.get_basename()
+        self.imager_h5.prepare(baseName=basename+'_images', nImages=10)
         self.imager_h5.write()
+        path = self.imager_h5.imagerh5.file_path.get()
+        name = self.imager_h5.imagerh5.file_name.get()
+        full_name = path+name+'_1.h5'
+        return full_name
 
 
     def set_time_range(self, time_range=10.0):

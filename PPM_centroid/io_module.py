@@ -133,8 +133,8 @@ class ElogHandler:
         except:
             print('unable to connect to elog')
             self.elog = None
-    
-    def post_stats(self, imager_name, controls, stats, energy):
+   
+    def stats_message(self, imager_name, controls, stats, energy):
         # get stats
         xcentroid = stats.xCentroidLineEdit.text()
         ycentroid = stats.yCentroidLineEdit.text()
@@ -153,17 +153,48 @@ class ElogHandler:
                                                energy=photon_energy, state=state, 
                                                xcentroid=xcentroid, ycentroid=ycentroid,
                                                xwidth=xwidth, ywidth=ywidth))
+        return message
 
+    def window_grab(self):
         # get screenshot
         window_id = check_output('xdotool getactivewindow',shell=True).decode('utf-8').replace('\n','')
         check_output('import -window {} ~/trajectory/window_grab.jpg'.format(window_id), shell=True)
 
         file_path = check_output('cd ~/trajectory; pwd',shell=True).decode('utf-8').replace('\n','') + '/'
+       
+        full_name = file_path + 'window_grab.jpg'
+
+        return full_name
+
+    def post_stats(self, imager_name, controls, stats, energy):
+        # get stats
+        message = self.stats_message(imager_name, controls, stats, energy)
+
+        attachment_name = self.window_grab()
+
         if self.elog is not None:
-            self.elog.post(message, attachments=[file_path+'window_grab.jpg'],tags=['GoldenTrajectory'],
+            self.elog.post(message, attachments=[attachment_name],tags=['GoldenTrajectory'],
                     experiment=False,facility=True)
         else:
             print('elog is not connected, not posted')
                     
+    def post_trajectory(self, imager_name, controls, stats, energy, image_file, data_file):
+        
+        # get stats
+        message = self.stats_message(imager_name, controls, stats, energy)
+
+        file_message = textwrap.dedent("""10 raw images saved to {}.
+                                    Calculated values and pv's saved to {}.""".format(
+                                        image_file, data_file))
+        full_message = message + '\n' + file_message
+
+        attachment_name = self.window_grab()
+
+        if self.elog is not None:
+            self.elog.post(full_message, attachments=[attachment_name], 
+                    tags=['GoldenTrajectory', imager_name], experiment=False, facility=True)
+        else:
+            print('elog is not connected, not posted')
+
 
 

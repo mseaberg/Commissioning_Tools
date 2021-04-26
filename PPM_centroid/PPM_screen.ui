@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1140</width>
-    <height>930</height>
+    <height>938</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -476,7 +476,103 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout_9">
+       <item row="0" column="1">
+        <widget class="PyDMLabel" name="photonEnergyLabel">
+         <property name="toolTip">
+          <string/>
+         </property>
+         <property name="text">
+          <string>0.0 eV</string>
+         </property>
+         <property name="precision" stdset="0">
+          <number>1</number>
+         </property>
+         <property name="showUnits" stdset="0">
+          <bool>true</bool>
+         </property>
+         <property name="precisionFromPV" stdset="0">
+          <bool>false</bool>
+         </property>
+         <property name="channel" stdset="0">
+          <string>ca://PMPS:KFE:PE:UND:CurrentPhotonEnergy_RBV</string>
+         </property>
+         <property name="buddy">
+          <cstring></cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4">
+        <widget class="QCheckBox" name="wavefrontCheckBox">
+         <property name="text">
+          <string>Calculate wavefront?</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="lineComboBox">
+         <property name="currentText">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QComboBox" name="imagerComboBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Photon Energy:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="runButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>27</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Run</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="7">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>X Focus</string>
+         </property>
+        </widget>
+       </item>
        <item row="1" column="9">
+        <widget class="QPushButton" name="calibrateButton">
+         <property name="text">
+          <string>Calibrate</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="8">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Y Focus</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="10">
         <widget class="QLabel" name="label">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -501,85 +597,14 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QComboBox" name="lineComboBox">
-         <property name="currentText">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="7">
+       <item row="1" column="8">
         <widget class="QLineEdit" name="yFocusLineEdit">
          <property name="text">
           <string>0</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="3">
-        <widget class="QCheckBox" name="wavefrontCheckBox">
-         <property name="text">
-          <string>Calculate wavefront?</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="8">
-        <widget class="QPushButton" name="calibrateButton">
-         <property name="text">
-          <string>Calibrate</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QPushButton" name="runButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>27</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Run</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QComboBox" name="imagerComboBox">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="4">
-        <widget class="QPushButton" name="plotButton">
-         <property name="text">
-          <string>New Plot</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="5">
-        <widget class="QPushButton" name="alignmentButton">
-         <property name="text">
-          <string>Align Focus</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="6">
-        <widget class="QLineEdit" name="xFocusLineEdit">
-         <property name="text">
-          <string>0</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="10">
+       <item row="1" column="11">
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -592,57 +617,67 @@
          </property>
         </spacer>
        </item>
-       <item row="0" column="6">
-        <widget class="QLabel" name="label_3">
+       <item row="1" column="7">
+        <widget class="QLineEdit" name="xFocusLineEdit">
          <property name="text">
-          <string>X Focus</string>
+          <string>0</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="7">
-        <widget class="QLabel" name="label_4">
+       <item row="1" column="6">
+        <widget class="QPushButton" name="alignmentButton">
          <property name="text">
-          <string>Y Focus</string>
+          <string>Align Focus</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="PyDMLabel" name="photonEnergyLabel">
-         <property name="toolTip">
-          <string/>
-         </property>
+       <item row="1" column="5">
+        <widget class="QPushButton" name="plotButton">
          <property name="text">
-          <string>519.6 eV</string>
-         </property>
-         <property name="precision" stdset="0">
-          <number>1</number>
-         </property>
-         <property name="showUnits" stdset="0">
-          <bool>true</bool>
-         </property>
-         <property name="precisionFromPV" stdset="0">
-          <bool>false</bool>
-         </property>
-         <property name="channel" stdset="0">
-          <string>ca://PMPS:KFE:PE:UND:CurrentPhotonEnergy_RBV</string>
-         </property>
-         <property name="buddy">
-          <cstring></cstring>
+          <string>New Plot</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Photon Energy:</string>
+       <item row="0" column="2" colspan="5">
+        <widget class="QFrame" name="frame_6">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>40</height>
+          </size>
          </property>
-        </widget>
-       </item>
-       <item row="0" column="2" colspan="2">
-        <widget class="QPushButton" name="trajectoryButton">
-         <property name="text">
-          <string>Capture Trajectory</string>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
          </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_10">
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="unhappyCheckBox">
+            <property name="text">
+             <string>unpointed</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QCheckBox" name="happyCheckBox">
+            <property name="text">
+             <string>happy with trajectory</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QPushButton" name="trajectoryButton">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Capture Trajectory</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>

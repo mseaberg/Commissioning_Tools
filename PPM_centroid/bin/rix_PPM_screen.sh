@@ -1,5 +1,7 @@
 #!/bin/env bash
+#cd /reg/g/pcds/pyps/apps/hutch-python/rix
 source /reg/g/pcds/pyps/apps/hutch-python/rix/rixenv
+#export PYTHONPATH="/reg/g/pcds/pyps/apps/hutch-python/rix:/reg/g/pcds/pyps/apps/hutch-python/rix/dev/devpath:/cds/home/s/seaberg/Python/lcls_beamline_toolbox"
 export PYTHONPATH=$PYTHONPATH:/cds/home/s/seaberg/Python/lcls_beamline_toolbox
 
 cd /cds/home/s/seaberg/dev/Commissioning_Tools/PPM_centroid

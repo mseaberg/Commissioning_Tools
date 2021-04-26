@@ -56,6 +56,9 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         self.actionPost_to_elog.triggered.connect(self.elog_post)
         self.trajectoryButton.clicked.connect(self.capture_trajectory)
 
+        self.unhappyCheckBox.toggled.connect(self.unhappy_trajectory)
+        self.happyCheckBox.toggled.connect(self.happy_trajectory)
+
         # adjustment for amount of time to show on plots (this should be cleaned up later)
         self.plotRangeLineEdit.returnPressed.connect(self.set_time_range)
         self.wfsPlotRangeLineEdit.returnPressed.connect(self.set_time_range)
@@ -249,6 +252,9 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
 
         self.plots = []
 
+        # attribute describing if trajectory is set
+        self.trajectory_is_set = False
+
     def calibrate(self):
         calib_plot = PPM_widgets.NewPlot(self, self.data_handler.plot_keys())
         calib_plot.xaxis_comboBox.setCurrentText('timestamps')
@@ -269,6 +275,24 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
 
     def enable_calibrate(self):
         self.calibrateButton.setEnabled(True)
+
+    def unhappy_trajectory(self, checked):
+        if checked:
+            self.happyCheckBox.setChecked(False)
+            self.trajectoryButton.setEnabled(True)
+            self.trajectory_is_set = False
+        else:
+            if not self.happyCheckBox.isChecked():
+                self.trajectoryButton.setEnabled(False)
+
+    def happy_trajectory(self, checked):
+        if checked:
+            self.unhappyCheckBox.setChecked(False)
+            self.trajectoryButton.setEnabled(True)
+            self.trajectory_is_set = True
+        else:
+            if not self.unhappyCheckBox.isChecked():
+                self.trajectoryButton.setEnabled(False)
 
     def align_focus(self):
 
@@ -432,8 +456,9 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         self.save_sig.emit(data_name)
        
         # post to elog
-        self.elog_handler.post_trajectory(self.imager, self.imagerControls,
-                self.imagerStats, self.photonEnergyLabel, image_name, data_name)
+        self.elog_handler.post_trajectory(self.trajectory_is_set, self.imager, 
+                self.imagerControls, self.imagerStats, self.photonEnergyLabel, 
+                image_name, data_name)
 
     def elog_post(self):
         self.elog_handler.post_stats(self.imager, self.imagerControls, self.imagerStats,
@@ -442,6 +467,12 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
     def get_basename(self):
         # get state
         state = self.imagerControls.yStateReadback.text()
+
+        # get pointing information
+        if self.trajectory_is_set:
+            pointing = 'pointed'
+        else:
+            pointing = 'unpointed'
         
         # get timestamp
         timestamp = datetime.now()
@@ -449,7 +480,7 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         time_str = timestamp.time().isoformat(timespec='seconds')
         time_string = '%s_%s' % (date_str, time_str)
         #basename = '%s_trajectory_%s' % (self.imager, time_string)
-        basename = '%s_%s' % (state, time_string)
+        basename = '%s_%s_%s' % (state, time_string, pointing)
         
         return basename
 

@@ -178,7 +178,7 @@ class ElogHandler:
         else:
             print('elog is not connected, not posted')
                     
-    def post_trajectory(self, imager_name, controls, stats, energy, image_file, data_file):
+    def post_trajectory(self, pointing, imager_name, controls, stats, energy, image_file, data_file):
         
         # get stats
         message = self.stats_message(imager_name, controls, stats, energy)
@@ -186,13 +186,19 @@ class ElogHandler:
         file_message = textwrap.dedent("""10 raw images saved to {}.
                                     Calculated values and pv's saved to {}.""".format(
                                         image_file, data_file))
-        full_message = message + '\n' + file_message
+
+        if pointing:
+            pointing_message = 'Beam trajectory is set.\n'
+        else:
+            pointing_message = 'Beam trajectory is NOT set.\n'
+
+        full_message = pointing_message + message + '\n' + file_message
 
         attachment_name = self.window_grab()
 
         if self.elog is not None:
             self.elog.post(full_message, attachments=[attachment_name], 
-                    tags=['GoldenTrajectory', imager_name], experiment=False, facility=True)
+                    tags=['GoldenTrajectory', imager_name], experiment=True, facility=True)
         else:
             print('elog is not connected, not posted')
 

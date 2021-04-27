@@ -352,8 +352,11 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
 
     def enable_align(self):
         #if self.wfs_name=='PF1K4':
-        if self.hutch.lower()==self.curr_imager_dict['hutch'] and self.wfs_name is not None:
-            self.alignmentButton.setEnabled(True)
+        try:
+            if self.hutch.lower()==self.curr_imager_dict['hutch'] and self.wfs_name is not None:
+                self.alignmentButton.setEnabled(True)
+        except:
+            print('image_info.json file is incomplete')
 
     def make_new_plot(self):
         plot_window = PPM_widgets.NewPlot(self, self.data_handler.plot_keys())

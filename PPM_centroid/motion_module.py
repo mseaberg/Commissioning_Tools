@@ -41,7 +41,7 @@ class Alignment(QtCore.QObject):
 
     sig_finished = QtCore.pyqtSignal()
 
-    def __init__(self, data_handler, curr_imager_dict, goals, curr_hutch):
+    def __init__(self, data_handler, curr_imager_dict, goals):
         super(Alignment, self).__init__()
 
         photon_energy = SignalRO('PMPS:KFE:PE:UND:CurrentPhotonEnergy_RBV').get()
@@ -51,9 +51,18 @@ class Alignment(QtCore.QObject):
 
         filename = '{}_{}.npz'.format(curr_imager_dict['hutch'], curr_imager_dict['IP'])
 
-        calib_data = np.load(base_path+filename)
-        self.Ax = calib_data['Ax']
-        self.Ay = calib_data['Ay']
+        try:
+            calib_data = np.load(base_path+filename)
+            self.Ax = calib_data['Ax']
+            self.Ay = calib_data['Ay']
+        except IOError:
+            print('no calibration file exists')
+            self.Ax = np.zeros((2,2))
+            self.Ay = np.copy(self.Ax)
+        except ValueError:
+            print('problem with the calibration file')
+            self.Ax = np.zeros((2, 2))
+            self.Ay = np.copy(self.Ax)
 
         self.data_handler = data_handler
         self.hfm = KBMirror(hfm_pv, name=hfm_pv[:5].lower())

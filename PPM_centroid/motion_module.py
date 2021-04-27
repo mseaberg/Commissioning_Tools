@@ -6,6 +6,9 @@ from ophyd import EpicsSignal as Signal
 from pcdsdevices.mirror import KBOMirror
 
 
+base_path = '/cds/home/s/seaberg/dev/Commissioning_Tools/PPM_centroid/calibration/'
+
+
 class Calibration(QtCore.QThread):
 
     def __init__(self, data_handler):
@@ -38,40 +41,25 @@ class Alignment(QtCore.QObject):
 
     sig_finished = QtCore.pyqtSignal()
 
-    def __init__(self, data_handler, goals):
+    def __init__(self, data_handler, curr_imager_dict, goals, curr_hutch):
         super(Alignment, self).__init__()
 
         photon_energy = SignalRO('PMPS:KFE:PE:UND:CurrentPhotonEnergy_RBV').get()
 
+        hfm_pv = curr_imager_dict['hfm']
+        vfm_pv = curr_imager_dict['vfm']
+
+        filename = '{}_{}.npz'.format(curr_imager_dict['hutch'], curr_imager_dict['IP'])
+
+        calib_data = np.load(base_path+filename)
+        self.Ax = calib_data['Ax']
+        self.Ay = calib_data['Ay']
 
         self.data_handler = data_handler
-        self.mr2k4 = KBMirror('MR2K4:KBO', name='mr2k4')
-        self.mr3k4 = KBMirror('MR3K4:KBO', name='mr3k4')
-
-        lambda_ref = 1239.8/870.0*1e-9
+        self.hfm = KBMirror(hfm_pv, name=hfm_pv[:5].lower())
+        self.vfm = KBMirror(vfm_pv, name=vfm_pv[:5].lower())
 
         self.lambda0 = 1239.8/photon_energy*1e-9
-
-        # first column is upstream bender, second column is downstream bender
-        # first row is focus distance, second column is third order
-        Ax_inverse = np.zeros((2, 2))
-
-        # this is the calibration matrix for MR2K4
-        # units of top row are z[mm]/bend[mm]
-        # units of bottom row are coeff/bend[mm]
-        # eventually need to scale out the wavelength for the third order coefficients but this should work at 870 eV
-        Ax_inverse[:, 0] = np.array([15, -142e6*lambda_ref])
-        Ax_inverse[:, 1] = np.array([23, 115e6*lambda_ref])
-
-        self.Ax = np.linalg.inv(Ax_inverse)
-
-        # this is the calibration matrix for MR3K4. Details are the same as above for MR2K4
-        Ay_inverse = np.zeros((2, 2))
-
-        Ay_inverse[:, 0] = np.array([13.3, -120e6*lambda_ref])
-        Ay_inverse[:, 1] = np.array([16.7, 83e6*lambda_ref])
-
-        self.Ay = np.linalg.inv(Ay_inverse)
 
         # goals is just a dictionary. Each entry in the dictionary is a 1D array. The second entry will probably
         # always be zero since this corresponds to undesirable 3rd order
@@ -116,10 +104,10 @@ class Alignment(QtCore.QObject):
                 motion_y = np.dot(self.Ay, delta_y)
 
                 # move the mirrors
-                self.mr2k4.bender_us.mvr(motion_x[0])
-                self.mr2k4.bender_ds.mvr(motion_x[1])
-                self.mr3k4.bender_us.mvr(motion_y[0])
-                self.mr3k4.bender_ds.mvr(motion_y[1])
+                self.hfm.bender_us.mvr(motion_x[0])
+                self.hfm.bender_ds.mvr(motion_x[1])
+                self.vfm.bender_us.mvr(motion_y[0])
+                self.vfm.bender_ds.mvr(motion_y[1])
                 self.sig_finished.emit()
 
     def cancel(self):

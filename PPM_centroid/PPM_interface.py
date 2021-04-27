@@ -152,53 +152,29 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
 
         # load in imager information
         with open(local_path+'imager_info.json') as json_file:
-            imager_info = json.load(json_file)
-
-        self.line_list = [key for key in imager_info]
+            self.imager_info = json.load(json_file)
 
         # list of beamlines
-        # self.line_list = ['L0', 'L1', 'K0', 'K1', 'K2', 'K3', 'K4', 'MONO']
-        # dictionary of imagers
-        self.imager_dict = {
-            'L0': ['IM1L0', 'IM2L0', 'IM3L0', 'IM4L0', 'HX2_shared', 'xcs_yag1', 'mec_yag0', 'xcs_yag2', 'xcs_yag3', 'xcs_yag3m', 'cxi_dg1_yag', 
-                'mfx_dg1_yag', 'mec_yag1', 'xpp_gige_13'],
-            'L1': ['IM1L1', 'IM2L1', 'IM3L1', 'IM4L1'],
-            'K0': ['IM1K0', 'IM2K0'],
-            'K1': ['IM1K1', 'IM2K1'],
-            'K2': ['SL1K2', 'IM1K2', 'IM2K2', 'IM3K2', 'IM4K2', 'IM5K2', 'IM6K2', 'IM7K2'],
-            'K3': ['IM1K3', 'IM2K3', 'IM3K3'],
-            'K4': ['IM1K4', 'IM2K4', 'IM3K4', 'IM4K4', 'IM5K4', 'IM6K4'],
-            'MONO': ['MONO_03', 'MONO_04']
-        }
+        self.line_list = [key for key in self.imager_info]
 
-        # dictionary of imager PV prefixes
-        self.imagerpv_dict = {
-            'L0': ['IM1L0:XTES:', 'IM2L0:XTES:', 'IM3L0:PPM:', 'IM4L0:XTES:', 'XPP:GIGE:01:', 'HXX:UM6:CVV:01:', 'HXX:HXM:CVV:01:',
-                'HFX:DG2:CVV:01:', 'XCS:DG3:CVV:02:', 'HFX:DG3:CVV:01:', 'CXI:DG1:P6740:', 'MFX:DG1:P6740:', 'MEC:HXM:CVV:01:', 'XPP:GIGE:13:'],
-            'L1': ['IM1L1:PPM:', 'IM2L1:PPM:', 'IM3L1:PPM:', 'IM4L1:PPM:'],
-            'K0': ['IM1K0:XTES:', 'IM2K0:XTES:'],
-            'K1': ['IM1K1:PPM:', 'IM2K1:PPM:'],
-            'K2': ['SL1K2:EXIT:', 'IM1K2:PPM:', 'IM2K2:PPM:', 'IM3K2:PPM:', 'IM4K2:PPM:', 'IM5K2:PPM:',
-                   'IM6K2:PPM:', 'IM7K2:PPM:'],
-            'K3': ['IM1K3:PPM:', 'IM2K3:PPM:', 'IM3K3:PPM:'],
-            'K4': ['IM1K4:XTES:', 'IM2K4:PPM:', 'IM3K4:PPM:', 'IM4K4:PPM:', 'IM5K4:PPM:',
-                   'IM6K4:PPM:'],
-            'MONO': ['MR2K1:MONO:CAM:03:', 'MR2K1:MONO:CAM:04:']
-        }
+        # dictionary of imagers
+        self.imager_dict = {}
+        for line in self.line_list:
+            self.imager_dict[line] = [key for key in self.imager_info[line]]
 
         # list of imagers with a wavefront sensor
-        self.WFS_list = ['IM2K0', 'IM2L0', 'IM5K4', 'IM6K4', 'IM6K2', 'IM3K3', 'IM4L1']
+        #self.WFS_list = ['IM2K0', 'IM2L0', 'IM5K4', 'IM6K4', 'IM6K2', 'IM3K3', 'IM4L1']
 
         # dictionary of wavefront sensor corresponding to imager
-        self.WFS_dict = {
-            'IM2K0': 'PF1K0',
-            'IM2L0': 'PF1L0',
-            'IM5K4': 'PF1K4',
-            'IM6K4': 'PF2K4',
-            'IM6K2': 'PF1K2',
-            'IM3K3': 'PF1K3',
-            'IM4L1': 'PF1L1'
-        }
+        #self.WFS_dict = {
+        #    'IM2K0': 'PF1K0',
+        #    'IM2L0': 'PF1L0',
+        #    'IM5K4': 'PF1K4',
+        #    'IM6K4': 'PF2K4',
+        #    'IM6K2': 'PF1K2',
+        #    'IM3K3': 'PF1K3',
+        #    'IM4L1': 'PF1L1'
+        #}
 
         # initialize line combo box
         self.lineComboBox.addItems(self.line_list)
@@ -228,8 +204,14 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         self.wfs_name = None
 
         # make sure this initializes properly
-        self.imagerpv_list = self.imagerpv_dict[self.line]
-        self.imagerpv = self.imagerpv_list[cam_index]
+        #self.imagerpv_list = self.imagerpv_dict[self.line]
+        #self.imagerpv = self.imagerpv_list[cam_index]
+
+        self.curr_imager_dict = self.imager_info[self.line][self.imager]
+
+        self.imagerpv = self.curr_imager_dict['prefix']
+        #self.imagerpv = self.imager_info[self.line][self.imager]['prefix']
+
         self.imagerComboBox.clear()
         self.imagerComboBox.addItems(self.imager_list)
        
@@ -324,7 +306,7 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         }
 
         self.alignment_message = QtWidgets.QMessageBox()
-        self.align = Alignment(self.data_handler, goals)
+        self.align = Alignment(self.data_handler, self.curr_imager_dict, goals)
         self.align.sig_finished.connect(self.alignment_finished)
 
         # initialize a new thread
@@ -369,7 +351,8 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
             self.enable_align()
 
     def enable_align(self):
-        if self.wfs_name=='PF1K4':
+        #if self.wfs_name=='PF1K4':
+        if self.hutch.lower()==self.curr_imager_dict['hutch'] and self.wfs_name is not None:
             self.alignmentButton.setEnabled(True)
 
     def make_new_plot(self):
@@ -560,7 +543,7 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         # update line
         self.line = self.line_list[index]
         self.imager_list = self.imager_dict[self.line]
-        self.imagerpv_list = self.imagerpv_dict[self.line]
+        #self.imagerpv_list = self.imagerpv_dict[self.line]
         self.imagerComboBox.clear()
         self.imagerComboBox.addItems(self.imager_list)
         self.change_imager(0)
@@ -583,18 +566,22 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         self.imager = self.imager_list[index]
         self.imageGroupBox.setTitle(self.imager)
         self.wavefrontGroupBox.setTitle(self.imager)
+        self.curr_imager_dict = self.imager_info[self.line][self.imager]
         # check if this imager has a wavefront sensor
-        if self.imager in self.WFS_list:
+        #if self.imager in self.WFS_list:
+        if 'wfs' in self.curr_imager_dict.keys():
             self.wavefrontCheckBox.setEnabled(True)
             # update wfs_name
-            self.wfs_name = self.WFS_dict[self.imager]
+            #self.wfs_name = self.WFS_dict[self.imager]
+            self.wfs_name = self.curr_imager_dict['wfs']
         else:
             self.wavefrontCheckBox.setChecked(False)
             self.wavefrontCheckBox.setEnabled(False)
             # no wavefront sensor associated with this imager
             self.wfs_name = None
 
-        self.imagerpv = self.imagerpv_list[index]
+        #self.imagerpv = self.imagerpv_list[index]
+        self.imagerpv = self.curr_imager_dict['prefix']
         self.imagerControls.change_imager(self.imagerpv)
 
         # hdf5 object
@@ -716,7 +703,9 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
             self.calibrateButton.setEnabled(False)
             self.alignmentButton.setEnabled(False)
             # re-enable wavefront sensor checkbox if imager is has a wavefront sensor
-            if self.imager in self.WFS_list:
+            #if self.imager in self.WFS_list:
+            if 'wfs' in self.curr_imager_dict.keys():
+
                 self.wavefrontCheckBox.setEnabled(True)
 
             #self.runButton.setEnabled(True)

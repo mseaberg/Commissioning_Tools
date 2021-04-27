@@ -95,19 +95,24 @@
       "prefix": "IM5K2:PPM:",
       "wfs": "PF1K2",
       "hfm": "MR3K2:KBH",
-      "vfm": "MR4K2:KBV"
+      "vfm": "MR4K2:KBV",
+      "hutch": "rix",
+      "IP": "qRIXS"
     },
     "IM6K2": {
       "prefix": "IM6K2:PPM:",
       "wfs": "PF2K2",
       "hfm": "MR3K2:KBH",
-      "vfm": "MR4K2:KBV"
+      "vfm": "MR4K2:KBV",
+      "hutch": "rix",
+      "IP": "chemRIXS"
     },
     "IM7K2": {
       "prefix": "IM7K2:PPM:",
       "wfs": "PF3K2",
       "hfm": "MR3K2:KBH",
-      "vfm": "MR4K2:KBV"
+      "vfm": "MR4K2:KBV",
+      "hutch": "rix"
     }
   },
   "K3": {
@@ -138,7 +143,9 @@
       "prefix": "IM5K4:PPM:",
       "wfs": "PF1K4",
       "hfm": "MR2K4:KBO",
-      "vfm": "MR3K4:KBO"
+      "vfm": "MR3K4:KBO",
+      "hutch": "tmo",
+      "IP": "IP1"
     },
     "IM6K4": {
       "prefix": "IM6K4:PPM:",

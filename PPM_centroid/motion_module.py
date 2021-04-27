@@ -41,7 +41,7 @@ class Alignment(QtCore.QObject):
 
     sig_finished = QtCore.pyqtSignal()
 
-    def __init__(self, data_handler, curr_imager_dict, goals, curr_hutch):
+    def __init__(self, data_handler, curr_imager_dict, goals):
         super(Alignment, self).__init__()
 
         photon_energy = SignalRO('PMPS:KFE:PE:UND:CurrentPhotonEnergy_RBV').get()

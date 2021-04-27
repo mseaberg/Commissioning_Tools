@@ -23,6 +23,7 @@ from io_module import ImagerHdf5, ElogHandler
 from subprocess import check_output
 
 Ui_MainWindow, QMainWindow = loadUiType('PPM_screen.ui')
+local_path = '/cds/home/s/seaberg/dev/Commissioning_Tools/PPM_centroid/'
 
 class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
     kill_sig = QtCore.pyqtSignal()
@@ -149,8 +150,14 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         # initialize data handler
         self.data_handler = DataHandler(self.hutch)
 
+        # load in imager information
+        with open(local_path+'imager_info.json') as json_file:
+            imager_info = json.load(json_file)
+
+        self.line_list = [key for key in imager_info]
+
         # list of beamlines
-        self.line_list = ['L0', 'L1', 'K0', 'K1', 'K2', 'K3', 'K4', 'MONO']
+        # self.line_list = ['L0', 'L1', 'K0', 'K1', 'K2', 'K3', 'K4', 'MONO']
         # dictionary of imagers
         self.imager_dict = {
             'L0': ['IM1L0', 'IM2L0', 'IM3L0', 'IM4L0', 'HX2_shared', 'xcs_yag1', 'mec_yag0', 'xcs_yag2', 'xcs_yag3', 'xcs_yag3m', 'cxi_dg1_yag', 

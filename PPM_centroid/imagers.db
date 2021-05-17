@@ -48,6 +48,8 @@
     },
     "IM1K0": {
         "pixel": 1.0,
+        "zoom": 20,
+        "focus": 79,
         "orientation": "action180",
         "z": 699.468,
         "FOV": 0,
@@ -56,10 +58,10 @@
     },
     "IM2K0": {
         "pixel": 7.12,
-        "zoom": 190.4,
-        "focus": 9.64,
+        "zoom": 25,
+        "focus": 89,
         "FOV": 0,
-        "ND": "T50",
+        "ND": "T100",
         "AcquireTime": 0.001,
         "orientation": "action180",
         "z": 734.34,
@@ -79,24 +81,24 @@
         "orientation": "action180",
         "FOV": 8.5,
         "z": 764.313,
-        "cx": 0,
-        "cy": 0
+        "cx": -274,
+        "cy": 191
     },
     "IM4K4": {
         "pixel": 2.7314367678972165,
         "orientation": "action180",
         "FOV": 5.0,
         "z": 761.101,
-        "cx": -495,
-        "cy": 330
+        "cx": 58,
+        "cy": 290
     },
     "IM3K4": {
         "pixel": 4.594732749964082,
         "orientation": "action180",
         "FOV": 8.5,
         "z": 758.889,
-        "cx": -500,
-        "cy": -50
+        "cx": -405,
+        "cy": -198
     },
     "IM1K4": {
         "orientation": "action0",
@@ -104,8 +106,8 @@
         "FOV": 0,
         "distance": 0,
         "pixel": 5.5,
-        "cx": 229,
-        "cy": 1545
+        "cx": -21,
+        "cy": 1021
     },
     "IM1K1": {
         "pixel": 4.572402330117336,
@@ -125,11 +127,11 @@
     },
     "SL1K2": {
         "pixel": 4.570425124768908,
-        "orientation": "action90",
-        "FOV": 8.5,
+        "orientation": "action0",
+        "FOV": 20.0,
         "z": 758.889,
-        "cx": -1000,
-        "cy": 476
+        "cx": -120,
+        "cy": -1720
     },
     "IM1K2": {
         "pixel": 4.570425124768908,
@@ -152,7 +154,7 @@
         "orientation": "action0",
         "FOV": 1.0,
         "z": 0.0,
-        "cx": 100,
-        "cy": 80
+        "cx": 120,
+        "cy": -200
     }
 }

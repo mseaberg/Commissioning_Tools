@@ -11,7 +11,7 @@
       "prefix": "IM3L0:PPM:"
     },
     "IM4L0": {
-      "prefix": "IM4L0:XTES"
+      "prefix": "IM4L0:XTES:"
     },
     "HX2_shared": {
       "prefix": "XPP:GIGE:01:"
@@ -63,7 +63,7 @@
       "prefix": "IM1K0:XTES:"
     },
     "IM2K0": {
-      "prefix": "IM2K0:XTES",
+      "prefix": "IM2K0:XTES:",
       "wfs": "PF1K0"
     }
   },

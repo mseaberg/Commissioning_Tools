@@ -4,12 +4,14 @@ source /reg/g/pcds/pyps/apps/hutch-python/rix/rixenv
 #export PYTHONPATH="/reg/g/pcds/pyps/apps/hutch-python/rix:/reg/g/pcds/pyps/apps/hutch-python/rix/dev/devpath:/cds/home/s/seaberg/Python/lcls_beamline_toolbox"
 export PYTHONPATH=$PYTHONPATH:/cds/home/s/seaberg/Python/lcls_beamline_toolbox
 
+chmod -R u+w ~/.cache/scikit-image
+
 cd /cds/home/s/seaberg/dev/Commissioning_Tools/PPM_centroid
 
 if [ $# -eq 1 ]; then
     IMAGER=$1
 else
-    IMAGER="IM1L0"
+    IMAGER="IM2K0"
 fi
 
 python run_interface.py -c $IMAGER &

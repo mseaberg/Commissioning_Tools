@@ -21,9 +21,9 @@ from imager_data import DataHandler
 from motion_module import Calibration, Alignment
 from io_module import ImagerHdf5, ElogHandler
 from subprocess import check_output
+import os
 
 Ui_MainWindow, QMainWindow = loadUiType('PPM_screen.ui')
-local_path = '/cds/home/s/seaberg/dev/Commissioning_Tools/PPM_centroid/'
 
 class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
     kill_sig = QtCore.pyqtSignal()
@@ -39,6 +39,13 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
             cam = args.camera
         else:
             cam = 'IM1L0'
+
+        self.local_path = os.path.dirname(os.path.abspath(__file__))
+
+        path1 = os.path.dirname(os.path.abspath(__file__))
+        path2 = os.path.abspath(os.getcwd())
+        print(path1)
+        print(path2)
 
         # button to start calculations
         self.runButton.clicked.connect(self.change_state)
@@ -145,13 +152,20 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         self.all_plots = [self.centroid_plot, self.width_plot, self.focus_plot, self.rms_plot]
 
         # get hutch
-        self.hutch = check_output('get_curr_exp').decode('utf-8').replace('\n','')[:3]
+        try:
+            #self.hutch = check_output('get_curr_exp').decode('utf-8').replace('\n','')[:3]
+            self.hutch = check_output('hostname').decode('utf-8').replace('\n','')[:3]
+
+        except:
+            self.hutch = check_output('hostname').decode('utf-8').replace('\n','')[:3]
+
+        print('hutch: %s' % self.hutch)
 
         # initialize data handler
         self.data_handler = DataHandler(self.hutch)
 
         # load in imager information
-        with open(local_path+'imager_info.json') as json_file:
+        with open(self.local_path+'/imager_info.json') as json_file:
             self.imager_info = json.load(json_file)
 
         # list of beamlines
@@ -353,7 +367,10 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
     def enable_align(self):
         #if self.wfs_name=='PF1K4':
         try:
-            allowed_hutch = self.hutch.lower()==self.curr_imager_dict['hutch']
+            if 'hutch' in self.curr_imager_dict.keys():
+                allowed_hutch = self.hutch.lower()==self.curr_imager_dict['hutch']
+            else:
+                allowed_hutch = False
             wfs_exists = self.wfs_name is not None
             wfs_calc = self.wavefrontCheckBox.isChecked()
             if allowed_hutch and wfs_exists and wfs_calc:
@@ -445,7 +462,12 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         image_name = self.save_hdf5(basename=basename)
         # save data
 
-        home_path = check_output('cd ~; pwd',shell=True).decode('utf-8').replace('\n','')
+        if self.hutch=='lfe':
+            home_path = '/cds/home/opr/xppopr'
+        elif self.hutch=='kfe':
+            home_path = '/cds/home/opr/tmoopr'
+        else:
+            home_path = check_output('cd ~; pwd',shell=True).decode('utf-8').replace('\n','')
 
         data_path = home_path+'/trajectory/data/'
         data_name = data_path+self.imager+'_'+basename + '_data.h5'
@@ -638,7 +660,7 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
 
             # initialize processing object. This really needs a dictionary as input...
             self.processing = RunProcessing(self.imagerpv, self.data_handler, self.averageWidget, wfs_name=wfs_name,
-                                            threshold=self.imagerStats.get_threshold(), focusFOV=self.displayWidget.FOV, fraction=fraction, focus_z=self.displayWidget.focus_z, displayWidget=self.displayWidget, thread=self.thread)
+                                            threshold=self.imagerStats.get_threshold(), focusFOV=self.displayWidget.FOV, fraction=fraction, focus_z=self.displayWidget.focus_z, displayWidget=self.displayWidget, thread=self.thread, hutch=self.hutch)
 
             # connect processing object to plotting function
             self.processing.sig.connect(self.update_plots)

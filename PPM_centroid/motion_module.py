@@ -6,9 +6,6 @@ from ophyd import EpicsSignal as Signal
 from pcdsdevices.mirror import KBOMirror
 
 
-base_path = '/cds/home/s/seaberg/dev/Commissioning_Tools/PPM_centroid/calibration/'
-
-
 class Calibration(QtCore.QThread):
 
     def __init__(self, data_handler):
@@ -48,6 +45,9 @@ class Alignment(QtCore.QObject):
 
         hfm_pv = curr_imager_dict['hfm']
         vfm_pv = curr_imager_dict['vfm']
+
+        base_path = os.path.dirname(os.path.abspath(__file__))+'/calibration/'
+
 
         filename = '{}_{}.npz'.format(curr_imager_dict['hutch'], curr_imager_dict['IP'])
 

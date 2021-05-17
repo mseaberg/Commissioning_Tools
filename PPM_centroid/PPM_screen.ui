@@ -10,11 +10,11 @@
     <x>0</x>
     <y>0</y>
     <width>1140</width>
-    <height>938</height>
+    <height>955</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Imager Commissioning Screen</string>
+   <string>Beam Alignment</string>
   </property>
   <property name="iconSize">
    <size>
@@ -482,7 +482,7 @@
           <string/>
          </property>
          <property name="text">
-          <string>0.0 eV</string>
+          <string>183.6 eV</string>
          </property>
          <property name="precision" stdset="0">
           <number>1</number>

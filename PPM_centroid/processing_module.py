@@ -20,11 +20,12 @@ class RunProcessing(QtCore.QObject):
     sig_initialized = QtCore.pyqtSignal()
     sig_finished = QtCore.pyqtSignal()
 
-    def __init__(self, imager_prefix, data_handler, averageWidget, wfs_name=None, threshold=0.1, focusFOV=10, fraction=1, focus_z=0, displayWidget=None, thread=None):
+    def __init__(self, imager_prefix, data_handler, averageWidget, wfs_name=None, threshold=0.1, focusFOV=10, fraction=1, focus_z=0, displayWidget=None, thread=None, hutch=None):
         super(RunProcessing, self).__init__()
         #QtCore.QThread.__init__(self)
 
         self.thread = thread
+        self.hutch = hutch
 
         # get wavefront sensor (may be None)
         self.wfs_name = wfs_name
@@ -84,7 +85,10 @@ class RunProcessing(QtCore.QObject):
         self.sig_initialized.emit()
 
         self.timer = QtCore.QTimer()
-        self.timer.setInterval(500)
+        if self.hutch=='lfe':
+            self.timer.setInterval(2000)
+        else:
+            self.timer.setInterval(500)
         self.timer.timeout.connect(self._update)
 
         #self._update()
@@ -316,17 +320,30 @@ class RunRegistration(QtCore.QObject):
 
             if isinstance(self.yag1, YagAlign):
                 # center[0,:] = translation[0,:]*scale[0] + np.array([1792,256])
-                center[0, 0] = translation[0, 0] * scale[0] + 1792
-                center[0, 1] = -translation[0, 1] * scale[0] + 256
+                #center[0, 0] = translation[0, 0] * scale[0] + 1592
+                #center[0, 1] = -translation[0, 1] * scale[0] + 256
+                ## center[1,:] = translation[1,:]*scale[1] + np.array([1792,1792])
+                #center[1, 0] = translation[1, 0] * scale[1] + 1792
+                #center[1, 1] = -translation[1, 1] * scale[1] + 1792
+                ## center[2,:] = translation[2,:]*scale[2] + np.array([256,256])
+                #center[2, 0] = translation[2, 0] * scale[2] + 256
+                #center[2, 1] = -translation[2, 1] * scale[2] + 256
+                ## center[3,:] = translation[3,:]*scale[3] + np.array([256,1792])
+                #center[3, 0] = translation[3, 0] * scale[3] + 256
+                #center[3, 1] = -translation[3, 1] * scale[3] + 1792
+
+                center[0, 0] = translation[0, 1] * scale[0] + 1792
+                center[0, 1] = -translation[0, 0] * scale[0] + 256
                 # center[1,:] = translation[1,:]*scale[1] + np.array([1792,1792])
-                center[1, 0] = translation[1, 0] * scale[1] + 1792
-                center[1, 1] = -translation[1, 1] * scale[1] + 1792
+                center[1, 0] = translation[2, 1] * scale[2] + 1792
+                center[1, 1] = -translation[2, 0] * scale[2] + 1792
                 # center[2,:] = translation[2,:]*scale[2] + np.array([256,256])
-                center[2, 0] = translation[2, 0] * scale[2] + 256
-                center[2, 1] = -translation[2, 1] * scale[2] + 256
+                center[2, 0] = translation[1, 1] * scale[1] + 256
+                center[2, 1] = -translation[1, 0] * scale[1] + 256
                 # center[3,:] = translation[3,:]*scale[3] + np.array([256,1792])
-                center[3, 0] = translation[3, 0] * scale[3] + 256
-                center[3, 1] = -translation[3, 1] * scale[3] + 1792
+                center[3, 0] = translation[3, 1] * scale[3] + 256
+                center[3, 1] = -translation[3, 0] * scale[3] + 1792
+
             self.data_dict['center'] = center
             self.data_dict['scale'] = scale
 

@@ -1,8 +1,8 @@
 {
     "IM1L0": {
         "pixel": 4.684816970240035,
-        "zoom": 94.7,
-        "focus": 75.6,
+        "zoom": 30,
+        "focus": 76,
         "ND": "T100",
         "AcquireTime": 0.008,
         "z": 699.558,
@@ -24,8 +24,8 @@
     },
     "IM2L0": {
         "pixel": 4.866571293575977,
-        "zoom": 175.2,
-        "focus": 9.9,
+        "zoom": 25,
+        "focus": 50,
         "ND": "T100",
         "AcquireTime": 0.008,
         "z": 736.508,
@@ -36,8 +36,8 @@
     },
     "IM4L0": {
         "pixel": 5.1939823097578035,
-        "zoom": 119.7,
-        "focus": -5.0,
+        "zoom": 25,
+        "focus": 35,
         "ND": "T100",
         "AcquireTime": 0.008,
         "z": 753.559,
@@ -48,6 +48,8 @@
     },
     "IM1K0": {
         "pixel": 1.0,
+        "zoom": 20,
+        "focus": 79,
         "orientation": "action180",
         "z": 699.468,
         "FOV": 0,
@@ -56,10 +58,10 @@
     },
     "IM2K0": {
         "pixel": 7.12,
-        "zoom": 190.4,
-        "focus": 9.64,
+        "zoom": 25,
+        "focus": 89,
         "FOV": 0,
-        "ND": "T50",
+        "ND": "T100",
         "AcquireTime": 0.001,
         "orientation": "action180",
         "z": 734.34,

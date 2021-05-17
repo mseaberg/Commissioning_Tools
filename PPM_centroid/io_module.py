@@ -123,13 +123,25 @@ class ImagerHdf5():
 class ElogHandler:
     def __init__(self):
         # check which hutch we're in
-        expname = check_output('get_curr_exp').decode('utf-8').replace('\n','')
-
-        hutch = expname[:3].upper()
-        print(hutch)
-        kwargs = dict()
+        
         try:
-            self.elog = HutchELog.from_conf(hutch, **kwargs)
+            #expname = check_output('get_curr_exp').decode('utf-8').replace('\n','')
+            #hutch = expname[:3].upper()
+            hutch = check_output('hostname').decode('utf-8').replace('\n','')[:3].upper()
+            print(hutch)
+        except:
+            hutch = None
+
+        kwargs = dict()
+        
+        try:
+            if hutch=='RIX':
+                kwargs['station'] = '2'
+                self.elog = HutchELog.from_conf(hutch, **kwargs)
+            else:
+                self.elog = HutchELog.from_conf(hutch, **kwargs)
+
+
         except:
             print('unable to connect to elog')
             self.elog = None
@@ -170,9 +182,9 @@ class ElogHandler:
         # get stats
         message = self.stats_message(imager_name, controls, stats, energy)
 
-        attachment_name = self.window_grab()
 
         if self.elog is not None:
+            attachment_name = self.window_grab()
             self.elog.post(message, attachments=[attachment_name],tags=['GoldenTrajectory'],
                     experiment=False,facility=True)
         else:
@@ -194,9 +206,9 @@ class ElogHandler:
 
         full_message = pointing_message + message + '\n' + file_message
 
-        attachment_name = self.window_grab()
 
         if self.elog is not None:
+            attachment_name = self.window_grab()
             self.elog.post(full_message, attachments=[attachment_name], 
                     tags=['GoldenTrajectory', imager_name], experiment=True, facility=True)
         else:

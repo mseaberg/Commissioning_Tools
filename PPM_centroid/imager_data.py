@@ -14,6 +14,9 @@ class DataHandler:
         Method to initialize the data handler class
         """
 
+        self.local_path = os.path.dirname(os.path.abspath(__file__))
+
+
         # timestamp key
         self.timestamp_key = 'timestamps'
 
@@ -55,7 +58,7 @@ class DataHandler:
         self.wfs_image_keys = ['focus', 'F0', 'wave']
 
         # read file with PV names
-        self.filename = '/cds/home/s/seaberg/Commissioning_Tools/PPM_centroid/pv_lists/{}_pvs.txt'.format(hutch.lower())
+        self.filename = self.local_path+'/pv_lists/{}_pvs.txt'.format(hutch.lower())
 
         # initialize data dictionary
         self.data_dict = {}

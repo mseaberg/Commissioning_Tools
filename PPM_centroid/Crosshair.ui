@@ -44,8 +44,8 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>icons/red_cross.svg</normaloff>icons/red_cross.svg</iconset>
+      <iconset resource="resources.qrc">
+       <normaloff>:/icons/red</normaloff>:/icons/red</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -246,8 +246,8 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>icons/blue_cross.svg</normaloff>icons/blue_cross.svg</iconset>
+      <iconset resource="resources.qrc">
+       <normaloff>:/icons/blue</normaloff>:/icons/blue</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -262,6 +262,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

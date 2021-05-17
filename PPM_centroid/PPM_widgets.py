@@ -8,19 +8,21 @@ from matplotlib import cm
 from PyQt5.QtGui import QPen
 import json
 import warnings
+import os
 
+local_path = os.path.dirname(os.path.abspath(__file__))
 
-Ui_LineoutImage, QLineoutImage = loadUiType('LineoutImage.ui')
-Ui_Crosshair, QCrosshair = loadUiType('Crosshair.ui')
-Ui_LevelsWidget, QLevelsWidget = loadUiType('LevelsWidget.ui')
-Ui_AverageWidget, QAverageWidget = loadUiType('AverageWidget.ui')
-Ui_Plot, QPlot = loadUiType('Epics_plot.ui')
-Ui_Config, QConfig = loadUiType('Config.ui')
-Ui_Imager, QImager = loadUiType('Imager_controls.ui')
-Ui_ImagerStats, QImagerStats = loadUiType('Imager_stats.ui')
-Ui_wfsStats, QwfsStats = loadUiType('wfs_stats.ui')
-Ui_wfs, Qwfs = loadUiType('wfs_controls.ui')
-Ui_DisplayOptions, QDisplayOptions = loadUiType('Wavefront_Display_Options.ui')
+Ui_LineoutImage, QLineoutImage = loadUiType(local_path+'/LineoutImage.ui')
+Ui_Crosshair, QCrosshair = loadUiType(local_path+'/Crosshair.ui')
+Ui_LevelsWidget, QLevelsWidget = loadUiType(local_path+'/LevelsWidget.ui')
+Ui_AverageWidget, QAverageWidget = loadUiType(local_path+'/AverageWidget.ui')
+Ui_Plot, QPlot = loadUiType(local_path+'/Epics_plot.ui')
+Ui_Config, QConfig = loadUiType(local_path+'/Config.ui')
+Ui_Imager, QImager = loadUiType(local_path+'/Imager_controls.ui')
+Ui_ImagerStats, QImagerStats = loadUiType(local_path+'/Imager_stats.ui')
+Ui_wfsStats, QwfsStats = loadUiType(local_path+'/wfs_stats.ui')
+Ui_wfs, Qwfs = loadUiType(local_path+'/wfs_controls.ui')
+Ui_DisplayOptions, QDisplayOptions = loadUiType(local_path+'/Wavefront_Display_Options.ui')
 
 
 class WFSDisplay(QDisplayOptions, Ui_DisplayOptions):

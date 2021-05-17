@@ -4,6 +4,7 @@ from pyqtgraph.Qt import QtCore
 from ophyd import EpicsSignalRO as SignalRO
 from ophyd import EpicsSignal as Signal
 from pcdsdevices.mirror import KBOMirror
+import os
 
 
 class Calibration(QtCore.QThread):

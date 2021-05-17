@@ -7,7 +7,7 @@ from pcdsdevices.areadetector.detectors import PCDSAreaDetector
 from subprocess import check_output
 from pcdsdevices.pim import PPM, XPIM
 from epics import PV
-from elog import HutchELog
+from elog import ELog, HutchELog
 import textwrap
 
 class ImagerHdf5():
@@ -140,11 +140,21 @@ class ElogHandler:
                 self.elog = HutchELog.from_conf(hutch, **kwargs)
             else:
                 self.elog = HutchELog.from_conf(hutch, **kwargs)
+        except:
+            print('unable to connect to experiment elog')
+            self.elog = None
 
+        if hutch=='RIX' or hutch=='TMO':
+            fee_name = 'kfe'
+        else:
+            fee_name = 'lfe'
+
+        try:
+            self.fee_elog = ELog(logbooks={"experiment": fee_name})
 
         except:
-            print('unable to connect to elog')
-            self.elog = None
+            print('unable to connect to %s elog' % fee_name)
+            self.fee_elog = None
    
     def stats_message(self, imager_name, controls, stats, energy):
         # get stats
@@ -210,9 +220,15 @@ class ElogHandler:
         if self.elog is not None:
             attachment_name = self.window_grab()
             self.elog.post(full_message, attachments=[attachment_name], 
-                    tags=['GoldenTrajectory', imager_name], experiment=True, facility=True)
+                    tags=['GoldenTrajectory', imager_name], experiment=True)
         else:
-            print('elog is not connected, not posted')
+            print('experiment elog is not connected, not posted')
+
+        if self.fee_elog is not None:
+            self.fee_elog.post(full_message, attachments=[attachment_name], 
+                    tags=['GoldenTrajectory', imager_name])
+        else:
+            print('FEE elog is not connected, not posted')
 
 
 

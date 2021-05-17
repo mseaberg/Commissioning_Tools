@@ -3,6 +3,7 @@ import pandas as pd
 from ophyd import EpicsSignalRO as SignalRO
 from ophyd.signal import ReadTimeoutError
 from copy import copy
+import os
 import h5py
 
 class DataHandler:

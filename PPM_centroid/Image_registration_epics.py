@@ -19,8 +19,13 @@ from processing_module import RunRegistration
 from analysis_tools import YagAlign
 from analysis_tools import XTESAlign
 import PPM_widgets
+import os
 
-Ui_MainWindow, QMainWindow = loadUiType('image_register.ui')
+
+local_path = os.path.dirname(os.path.abspath(__file__))
+
+
+Ui_MainWindow, QMainWindow = loadUiType(local_path+'/image_register.ui')
 
 
 class App(QtGui.QMainWindow, Ui_MainWindow):

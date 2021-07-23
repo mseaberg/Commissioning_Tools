@@ -157,7 +157,7 @@ class ImagerControls(QImager, Ui_Imager):
 
         try:
             #with open('/reg/neh/home/seaberg/Commissioning_Tools/PPM_centroid/imagers.db') as json_file:
-            with open('imagers.db') as json_file:
+            with open(local_path+'/imagers.db') as json_file:
                 data = json.load(json_file)
 
         except json.decoder.JSONDecodeError:

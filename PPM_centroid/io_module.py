@@ -220,7 +220,7 @@ class ElogHandler:
         if self.elog is not None:
             attachment_name = self.window_grab()
             self.elog.post(full_message, attachments=[attachment_name], 
-                    tags=['GoldenTrajectory', imager_name], experiment=True)
+                    tags=['GoldenTrajectory', imager_name], experiment=True, facility=True)
         else:
             print('experiment elog is not connected, not posted')
 

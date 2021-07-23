@@ -9,7 +9,7 @@ HERE=`dirname $(readlink -f $0)`
 if [ $# -eq 1 ]; then
     IMAGER=$1
 else
-    IMAGER="IM1K0"
+    IMAGER="IM2K0"
 fi
 
 python $HERE/../run_interface.py -c $IMAGER &

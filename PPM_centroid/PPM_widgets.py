@@ -9,6 +9,7 @@ from PyQt5.QtGui import QPen
 import json
 import warnings
 import os
+import subprocess
 
 local_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -107,6 +108,7 @@ class WFSControls(Qwfs, Ui_wfs):
                 self.zPosLineEdit]
         
         self.fractionLineEdit.returnPressed.connect(self.set_fraction)
+        self.expertButton.pressed.connect(self.open_expert_screen)
 
     def set_fraction(self):
         self.fractionReadback.setText(self.fractionLineEdit.text())
@@ -129,6 +131,10 @@ class WFSControls(Qwfs, Ui_wfs):
 
         obj.channel = 'ca://' + self.wfs_prefix + suffix
 
+    def open_expert_screen(self):
+        
+        proc = subprocess.Popen(['/bin/bash','-c',"typhos \"pcdsdevices.wfs.WaveFrontSensorTarget[{\'prefix\':\'%s\',\'name\':\'%s\'}]\"" % (self.wfs_prefix[:-1],self.wfs_prefix[:-5])])
+
 
 class ImagerControls(QImager, Ui_Imager):
     """
@@ -148,6 +154,7 @@ class ImagerControls(QImager, Ui_Imager):
                 'ND': self.ndStateComboBox,
                 'AcquireTime': self.acquireLineEdit
                 }
+        self.expertButton.pressed.connect(self.open_expert_screen)
 
     def restore_nominal(self):
 
@@ -204,6 +211,13 @@ class ImagerControls(QImager, Ui_Imager):
     def change_channel(self, obj, suffix):
 
         obj.channel = 'ca://'+self.imager_prefix+suffix
+
+    def open_expert_screen(self):
+        if 'XTES' in self.imager_prefix:
+            pim_type = 'XPIM'
+        else:
+            pim_type = 'PPM'
+        proc = subprocess.Popen(['/bin/bash','-c',"typhos \"pcdsdevices.pim.%s[{\'prefix\':\'%s\',\'name\':\'%s\'}]\"" % (pim_type, self.imager_prefix[:-1],self.imager_prefix[:5])])
 
 
 class WFSStats(QwfsStats, Ui_wfsStats):

@@ -201,6 +201,13 @@
      </property>
     </widget>
    </item>
+   <item row="4" column="2">
+    <widget class="QPushButton" name="expertButton">
+     <property name="text">
+      <string>Expert Screen</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>

@@ -150,7 +150,8 @@ class ElogHandler:
             fee_name = 'lfe'
 
         try:
-            self.fee_elog = ELog(logbooks={"experiment": fee_name})
+            user = '%sopr' % (hutch.lower())
+            self.fee_elog = ELog(logbooks={"experiment": fee_name},user=user,pw='pcds')
 
         except:
             print('unable to connect to %s elog' % fee_name)

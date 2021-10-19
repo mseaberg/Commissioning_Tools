@@ -463,7 +463,10 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         basename = self.get_basename()
 
         # save images
-        image_name = self.save_hdf5(basename=basename)
+        try:
+            image_name = self.save_hdf5(basename=basename)
+        except:
+            image_name = 'error saving images'
         # save data
 
         if self.hutch=='lfe':

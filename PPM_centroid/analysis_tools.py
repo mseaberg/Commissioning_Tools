@@ -3,6 +3,9 @@ import imageio
 import scipy.ndimage.interpolation as interpolate
 import scipy.ndimage as ndimage
 #import matplotlib.pyplot as plt
+import os
+
+local_path = os.path.dirname(os.path.abspath(__file__))
 
 
 class YagAlign:
@@ -10,7 +13,7 @@ class YagAlign:
     def __init__(self):
 
         # the TEMPLATE
-        im0 = imageio.imread("pattern.png")[:, :, 3]
+        im0 = imageio.imread(local_path+"/pattern.png")[:, :, 3]
         Nt, Mt = np.shape(im0)
         im0 = np.pad(im0,
                      ((int((512 - Nt) / 2 + 1), int((512 - Nt) / 2)), (int((512 - Mt) / 2 + 1), int((512 - Mt) / 2))),

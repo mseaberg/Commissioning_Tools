@@ -9,12 +9,13 @@ from pcdsdevices.pim import PPM, XPIM
 from epics import PV
 from elog import ELog, HutchELog
 import textwrap
+import time
 
 class ImagerHdf5():
     # taken from /reg/g/pcds/pyps/apps/hutch-python/xcs/experiments/x43118.py
     def __init__(self, prefix=None, name=None):
 
-        if 'MONO' not in prefix:
+        if 'MONO' not in prefix or 'CVV' not in prefix:
             detector_prefix = prefix + 'CAM:'
         else:
             detector_prefix = prefix
@@ -112,6 +113,12 @@ class ImagerHdf5():
         self.imagerh5.capture.put(1)
 
     def write_wait(self, nImages=None):
+        if nImages is not None:
+            self.imagerh5.num_capture.put(nImages)
+        if self.imager.acquire.get() == 0:
+            self.imager.acquire.put(1)
+        self.imagerh5.capture.put(1)
+        time.sleep(0.25)
         while (self.imagerh5.num_capture.get() > 
                self.imagerh5.num_captured.get()):
             time.sleep(0.25)

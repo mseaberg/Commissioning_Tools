@@ -93,7 +93,7 @@ class App(QtGui.QMainWindow, Ui_MainWindow):
         # the image to be transformed
         #im1 = np.array(imageio.imread("test_pattern.png")[32:2650, 32:2650, 3],dtype='float')
         if self.imager_type == 'PPM':
-            im1 = np.array(imageio.imread("PPM_alignment/IM3L0.png"),dtype='float')
+            im1 = np.array(imageio.imread(local_path+"/PPM_alignment/IM3L0.png"),dtype='float')
             im1 = 255 - im1
             N, M = np.shape(im1)
             scale = 2048.0 / N

@@ -14,7 +14,8 @@
       "prefix": "IM4L0:XTES:"
     },
     "HX2_shared": {
-      "prefix": "XPP:GIGE:01:"
+      "prefix": "XPP:GIGE:01:",
+      "type": "PIM"
     },
     "xcs_yag1": {
       "prefix": "HXX:UM6:CVV:01:"

@@ -618,6 +618,7 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
         #self.imagerpv = self.imagerpv_list[index]
         self.imagerpv = self.curr_imager_dict['prefix']
         self.imagerControls.change_imager(self.imagerpv)
+        self.imagerStats.change_imager(self.imagerpv)
 
         # hdf5 object
         self.imager_h5 = ImagerHdf5(prefix=self.imagerpv, name=self.imager)

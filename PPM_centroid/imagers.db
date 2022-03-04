@@ -86,6 +86,14 @@
         "cx": -274,
         "cy": 191
     },
+    "IM6K4": {
+        "pixel": 4.58,
+        "orientation": "action180",
+        "FOV": 8.5,
+        "z": 769.061,
+        "cx": 0,
+        "cy": 0
+    },
     "IM4K4": {
         "pixel": 2.7314367678972165,
         "orientation": "action180",

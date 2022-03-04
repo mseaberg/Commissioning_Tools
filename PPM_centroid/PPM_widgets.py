@@ -362,6 +362,9 @@ class ImagerStats(QImagerStats, Ui_ImagerStats):
         xRef = data['cx_ref']
         yRef = data['cy_ref']
 
+        self.xReferenceLabel.setText('X: {:d}\u03BCm'.format(int(xRef)))
+        self.yReferenceLabel.setText('Y: {:d}\u03BCm'.format(int(yRef)))
+
         distance = np.sqrt((xRef-cx_mean)**2 + (yRef-cy_mean)**2)
 
         if distance < 50:
@@ -377,6 +380,30 @@ class ImagerStats(QImagerStats, Ui_ImagerStats):
                     2*wx_mean, 2*wy_mean)
             self.circle.setPen(QtGui.QPen(self.color, self.thickness, Qt.SolidLine))
             self.ref_circle.setPen(QtGui.QPen(QtCore.Qt.white, self.thickness, Qt.SolidLine))
+
+    def change_imager(self, imager_prefix):
+        with open('/cds/home/s/seaberg/Commissioning_Tools/PPM_centroid/imagers.db') as json_file:
+            data = json.load(json_file)
+           
+            key_name = imager_prefix[0:5]
+            if 'MONO' in imager_prefix:
+                if '3' in imager_prefix:
+                    key_name = 'MONO_03'
+                elif '4' in imager_prefix:
+                    key_name = 'MONO_04'
+
+            imager_data = data[key_name]
+            #imager_data = data[self.epics_name[0:5]]
+
+            try:
+                xRef = int(imager_data['cx'])
+                yRef = int(imager_data['cy'])
+            except KeyError:
+                xRef = int(0)
+                yRef = int(0)
+        self.xReferenceLabel.setText('X: {:d}\u03BCm'.format(int(xRef)))
+        self.yReferenceLabel.setText('Y: {:d}\u03BCm'.format(int(yRef)))
+
 
     def update_threshold(self):
         try:

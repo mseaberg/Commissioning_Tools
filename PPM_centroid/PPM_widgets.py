@@ -392,7 +392,10 @@ class ImagerStats(QImagerStats, Ui_ImagerStats):
                 elif '4' in imager_prefix:
                     key_name = 'MONO_04'
 
-            imager_data = data[key_name]
+            try:
+                imager_data = data[key_name]
+            except KeyError:
+                imager_data = {}
             #imager_data = data[self.epics_name[0:5]]
 
             try:

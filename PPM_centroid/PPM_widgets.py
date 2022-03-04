@@ -362,8 +362,8 @@ class ImagerStats(QImagerStats, Ui_ImagerStats):
         xRef = data['cx_ref']
         yRef = data['cy_ref']
 
-        self.xReferenceLabel.setText('X: {:d}\u03BCm'.format(int(xRef)))
-        self.yReferenceLabel.setText('Y: {:d}\u03BCm'.format(int(yRef)))
+        #self.xReferenceLabel.setText('X: {:d}\u03BCm'.format(int(xRef)))
+        #self.yReferenceLabel.setText('Y: {:d}\u03BCm'.format(int(yRef)))
 
         distance = np.sqrt((xRef-cx_mean)**2 + (yRef-cy_mean)**2)
 

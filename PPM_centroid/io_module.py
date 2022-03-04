@@ -171,6 +171,8 @@ class ElogHandler:
         xwidth = stats.xWidthLineEdit.text()
         ywidth = stats.yWidthLineEdit.text()
         photon_energy = energy.text()
+        xref = stats.xReferenceLabel.text()
+        yref = stats.yReferenceLabel.text()
 
         # get imager state
         state = controls.yStateReadback.text()
@@ -179,10 +181,11 @@ class ElogHandler:
             Horizontal centroid: {xcentroid}\u03BCm
             Vertical centroid: {ycentroid}\u03BCm
             Horizontal width: {xwidth}\u03BCm
-            Vertical width: {ywidth}\u03BCm""".format(imager=imager_name, 
+            Vertical width: {ywidth}\u03BCm
+            Reference point: {xref}, {yref}""".format(imager=imager_name, 
                                                energy=photon_energy, state=state, 
                                                xcentroid=xcentroid, ycentroid=ycentroid,
-                                               xwidth=xwidth, ywidth=ywidth))
+                                               xwidth=xwidth, ywidth=ywidth, xref=xref, yref=yref))
         return message
 
     def window_grab(self):

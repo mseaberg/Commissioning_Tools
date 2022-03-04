@@ -99,8 +99,8 @@
         "orientation": "action180",
         "FOV": 8.5,
         "z": 758.889,
-        "cx": -405,
-        "cy": -198
+        "cx": 330,
+        "cy": -220
     },
     "IM1K4": {
         "orientation": "action0",

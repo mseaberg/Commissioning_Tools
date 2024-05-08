@@ -662,13 +662,15 @@ class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
                 fraction = float(self.wfsControls.fractionLineEdit.text())
             except ValueError:
                 fraction = 1
-            
+           
+            demo = self.demoCheckBox.isChecked()
+
             # initialize a new thread
             self.thread = QtCore.QThread()
 
             # initialize processing object. This really needs a dictionary as input...
             self.processing = RunProcessing(self.imagerpv, self.data_handler, self.averageWidget, wfs_name=wfs_name,
-                                            threshold=self.imagerStats.get_threshold(), focusFOV=self.displayWidget.FOV, fraction=fraction, focus_z=self.displayWidget.focus_z, displayWidget=self.displayWidget, thread=self.thread, hutch=self.hutch)
+                                            threshold=self.imagerStats.get_threshold(), focusFOV=self.displayWidget.FOV, fraction=fraction, focus_z=self.displayWidget.focus_z, displayWidget=self.displayWidget, thread=self.thread, hutch=self.hutch, demo=demo)
 
             # connect processing object to plotting function
             self.processing.sig.connect(self.update_plots)

@@ -1,6 +1,7 @@
 #!/bin/env bash
 source /reg/g/pcds/pyps/apps/hutch-python/tmo/tmoenv
-export PYTHONPATH=$PYTHONPATH:/cds/home/s/seaberg/Python/lcls_beamline_toolbox
+#export PYTHONPATH=$PYTHONPATH:/cds/home/s/seaberg/Python/lcls_beamline_toolbox
+export PYTHONPATH=$PYTHONPATH:/cds/home/s/seaberg/dev/lcls_beamline_toolbox
 
 HERE=`dirname $(readlink -f $0)`
 

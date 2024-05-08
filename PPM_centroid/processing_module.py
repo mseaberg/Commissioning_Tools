@@ -20,12 +20,13 @@ class RunProcessing(QtCore.QObject):
     sig_initialized = QtCore.pyqtSignal()
     sig_finished = QtCore.pyqtSignal()
 
-    def __init__(self, imager_prefix, data_handler, averageWidget, wfs_name=None, threshold=0.1, focusFOV=10, fraction=1, focus_z=0, displayWidget=None, thread=None, hutch=None):
+    def __init__(self, imager_prefix, data_handler, averageWidget, wfs_name=None, threshold=0.1, focusFOV=10, fraction=1, focus_z=0, displayWidget=None, thread=None, hutch=None, demo=False):
         super(RunProcessing, self).__init__()
         #QtCore.QThread.__init__(self)
 
         self.thread = thread
         self.hutch = hutch
+        self.demo = demo
 
         # get wavefront sensor (may be None)
         self.wfs_name = wfs_name
@@ -122,7 +123,7 @@ class RunProcessing(QtCore.QObject):
                 focus_z = 0.0
 
             # get latest image
-            self.PPM_object.get_image(angle=angle)
+            self.PPM_object.get_image(angle=angle, demo=self.demo)
 
             # wavefront sensing
             if self.WFS_object is not None:

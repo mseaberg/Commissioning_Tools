@@ -18,7 +18,7 @@ for line in line_list:
         prefix = imager_info[line][imager]['prefix']
         print(prefix)
        
-        if imager in imagers_db.keys() and 'K4' in imager:
+        if imager in imagers_db.keys() and 'L0' in imager:
             cx = imagers_db[imager]['cx']
             cy = imagers_db[imager]['cy']
             resolution = imagers_db[imager]['pixel']

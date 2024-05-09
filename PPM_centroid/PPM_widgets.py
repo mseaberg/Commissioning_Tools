@@ -335,6 +335,9 @@ class ImagerStats(QImagerStats, Ui_ImagerStats):
 
         self.showFitButton.toggled.connect(self.circle_toggled)
 
+        # start with fit shown by default
+        self.showFitButton.setChecked(True)
+
     def update_stats(self, data):
 
         cx = self.get_filtered(data['cx'])

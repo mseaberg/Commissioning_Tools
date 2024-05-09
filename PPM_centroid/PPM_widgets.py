@@ -691,7 +691,7 @@ class LineoutImage(QLineoutImage, Ui_LineoutImage):
         # update viewbox range
         self.view.setRange(QtCore.QRectF(-width/2., -width/2., width, width))
         # draw a white rectangle that is the same size as the image to show the image boundary
-        rect1 = QtGui.QGraphicsRectItem(-width/2., -width/2., width, width)
+        rect1 = QtWidgets.QGraphicsRectItem(-width/2., -width/2., width, width)
         rect1.setPen(QtGui.QPen(QtCore.Qt.white, width/50., QtCore.Qt.SolidLine))
         # add the rectangle to the viewbox
         self.view.addItem(rect1)
@@ -1117,7 +1117,7 @@ class ImageRegister:
         # update viewbox range
         self.view.setRange(QtCore.QRectF(-width/2., -width/2., width, width))
         # draw a white rectangle that is the same size as the image to show the image boundary
-        rect1 = QtGui.QGraphicsRectItem(-width/2., -width/2., width, width)
+        rect1 = QtWidgets.QGraphicsRectItem(-width/2., -width/2., width, width)
         rect1.setPen(QtGui.QPen(QtCore.Qt.white, width/50., QtCore.Qt.SolidLine))
         # add the rectangle to the viewbox
         self.view.addItem(rect1)

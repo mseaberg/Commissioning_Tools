@@ -28,7 +28,7 @@ local_path = os.path.dirname(os.path.abspath(__file__))
 Ui_MainWindow, QMainWindow = loadUiType(local_path+'/image_register.ui')
 
 
-class App(QtGui.QMainWindow, Ui_MainWindow):
+class App(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, imager=None, parent=None):
         super(App, self).__init__(parent)
         self.setupUi(self)
@@ -136,7 +136,7 @@ class App(QtGui.QMainWindow, Ui_MainWindow):
 
         # get current file contents
         try:
-            with open('imagers.db') as json_file:
+            with open(local_path+'/imagers.db') as json_file:
                 data = json.load(json_file)
 
         except json.decoder.JSONDecodeError:
@@ -150,7 +150,7 @@ class App(QtGui.QMainWindow, Ui_MainWindow):
             data[self.imager_name]['pixel'] = float(pixSize)
 
         # write to the file under the corresponding imager field
-        with open('imagers.db', 'w') as outfile:
+        with open(local_path+'/imagers.db', 'w') as outfile:
             json.dump(data, outfile, indent=4)
 
     def change_state(self):

@@ -1,6 +1,6 @@
 from PPM_interface import PPM_Interface
 import warnings
-from pyqtgraph.Qt import QtGui
+from pyqtgraph.Qt import QtGui, QtWidgets
 import sys
 import argparse
 
@@ -17,7 +17,7 @@ if __name__ == '__main__':
     warnings.filterwarnings('ignore', '.*output shape of zoom.*')
 
     qt_args = sys.argv[:1] + unparsed_args
-    app = QtGui.QApplication(qt_args)
+    app = QtWidgets.QApplication(qt_args)
     thisapp = PPM_Interface(args=parsed_args)
     thisapp.show()
     sys.exit(app.exec_())

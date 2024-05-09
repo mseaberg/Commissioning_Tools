@@ -29,7 +29,7 @@ local_path = os.path.dirname(os.path.abspath(__file__))
 
 Ui_MainWindow, QMainWindow = loadUiType(local_path+'/PPM_screen.ui')
 
-class PPM_Interface(QtGui.QMainWindow, Ui_MainWindow):
+class PPM_Interface(QtWidgets.QMainWindow, Ui_MainWindow):
     kill_sig = QtCore.pyqtSignal()
     reset_sig = QtCore.pyqtSignal()
     save_sig = QtCore.pyqtSignal(str)

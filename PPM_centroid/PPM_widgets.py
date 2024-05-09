@@ -6,6 +6,7 @@ import numpy as np
 from datetime import datetime
 from matplotlib import cm
 from PyQt5.QtGui import QPen
+from epics import PV
 import json
 import warnings
 import os
@@ -351,6 +352,9 @@ class ImagerStats(QImagerStats, Ui_ImagerStats):
         wx_mean = np.mean(wx)
         wy_mean = np.mean(wy)
 
+        xRef = data['cx_ref']
+        yRef = data['cy_ref']
+
         self.xCentroidLineEdit.setText('%.1f' % cx_mean)
         self.yCentroidLineEdit.setText('%.1f' % cy_mean)
         self.xWidthLineEdit.setText('%.1f' % wx_mean)
@@ -362,11 +366,8 @@ class ImagerStats(QImagerStats, Ui_ImagerStats):
         self.intensityLineEdit.setText('%.2f' % np.mean(intensity))
         self.intensityRMSLineEdit.setText('%.2f' % np.std(intensity))
 
-        xRef = data['cx_ref']
-        yRef = data['cy_ref']
-
-        #self.xReferenceLabel.setText('X: {:d}\u03BCm'.format(int(xRef)))
-        #self.yReferenceLabel.setText('Y: {:d}\u03BCm'.format(int(yRef)))
+        self.xReferenceLabel.setText('X: {:d}\u03BCm'.format(int(xRef)))
+        self.yReferenceLabel.setText('Y: {:d}\u03BCm'.format(int(yRef)))
 
         distance = np.sqrt((xRef-cx_mean)**2 + (yRef-cy_mean)**2)
 
@@ -407,6 +408,14 @@ class ImagerStats(QImagerStats, Ui_ImagerStats):
             except KeyError:
                 xRef = int(0)
                 yRef = int(0)
+
+            x2 = PV(imager_prefix + 'CAM:X_RTCL_CTR').get()
+            y2 = PV(imager_prefix + 'CAM:Y_RTCL_CTR').get()
+
+            if x2 is not None:
+                xRef = x2
+            if y2 is not None:
+                yRef = y2
         self.xReferenceLabel.setText('X: {:d}\u03BCm'.format(int(xRef)))
         self.yReferenceLabel.setText('Y: {:d}\u03BCm'.format(int(yRef)))
 

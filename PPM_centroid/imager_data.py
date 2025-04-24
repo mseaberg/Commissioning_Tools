@@ -46,14 +46,14 @@ class DataHandler:
         self.wfs_coord_keys = ['x_prime', 'y_prime', 'xf']
 
         # keys for 1-D arrays updated every shot
-        self.image_array_keys = ['lineout_x', 'lineout_y', 'projection_x',
-                           'projection_y', 'fit_x', 'fit_y']
+        self.image_array_keys = ['np_lineout_x', 'np_lineout_y', 'np_projection_x',
+                           'np_projection_y', 'fit_x', 'fit_y']
 
         # keys for 1-D wfs arrays updated every shot
         self.wfs_array_keys = ['x_res', 'y_res', 'focus_horizontal', 'focus_vertical']
 
         # keys for images updated every shot
-        self.image_keys = ['profile']
+        self.image_keys = ['np_profile']
 
         # keys for wfs images updated every shot
         self.wfs_image_keys = ['focus', 'F0', 'wave']

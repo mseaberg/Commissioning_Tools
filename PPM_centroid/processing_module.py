@@ -274,7 +274,7 @@ class RunRegistration(QtCore.QObject):
 
                 # self.im1 = np.ones((2048,2048))*255
                 self.PPM_object.get_image()
-                self.im1 = self.PPM_object.profile
+                self.im1 = self.PPM_object.np_profile
                 self.update_1d_data('timestamps', self.PPM_object.time_stamp)
 
             else:

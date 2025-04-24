@@ -40,7 +40,7 @@ class DataHandler:
         # self.valid_keys = ['centroid_is_valid', 'wavefront_is_valid']
 
         # keys for 1-D coordinates
-        self.coord_keys = ['x', 'y']
+        self.coord_keys = ['np_x', 'np_y']
 
         # keys for wfs 1-D coordinates
         self.wfs_coord_keys = ['x_prime', 'y_prime', 'xf']

@@ -102,7 +102,7 @@ class App(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
         else:
-            im1 = np.array(imageio.imread("PPM_alignment/im4l0_001.tiff"))
+            im1 = np.array(imageio.imread(local_path+"/PPM_alignment/im4l0_001.tiff"))
             #im1 = im1 - np.min(im1)
 
             N, M = np.shape(im1)

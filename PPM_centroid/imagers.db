@@ -191,6 +191,15 @@
         "cx": 0,
         "cy": 0
     },
+    "IM1K3": {
+        "pixel": 4.57,
+        "orientation": "action180",
+        "FOV": 8.5,
+        "z": 750.0,
+        "cx": 0,
+        "cy": 0
+    },
+
     "MONO_03": {
         "pixel": 1,
         "orientation": "action0",

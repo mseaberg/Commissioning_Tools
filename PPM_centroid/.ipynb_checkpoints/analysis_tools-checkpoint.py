@@ -2,7 +2,7 @@ import numpy as np
 import imageio
 import scipy.ndimage.interpolation as interpolate
 import scipy.ndimage as ndimage
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import os
 
 local_path = os.path.dirname(os.path.abspath(__file__))
@@ -248,7 +248,7 @@ class YagAlign:
         if radius is None:
             mindim = min(img.shape)
             radius = max(1, mindim // 20)
-        mask = np.zeros_like(img, dtype=bool)
+        mask = np.zeros_like(img, dtype=np.bool)
         mask[:, :radius] = True
         mask[:, -radius:] = True
         mask[:radius, :] = True
@@ -309,8 +309,8 @@ class XTESAlign:
     def __init__(self):
 
         # the TEMPLATE
-        im0 = imageio.imread(local_path+"/XTES_pattern.png")[:, :, 3]
-#         im0 = imageio.imread(local_path+"/XTES_pattern_zoom_out.png")[:, :, 3]
+        # im0 = imageio.imread("XTES_pattern.png")[:, :, 3]
+        im0 = imageio.imread("XTES_pattern_zoom_out.png")[:, :, 3]
 
         Nt, Mt = np.shape(im0)
         Nd = 1024
@@ -416,16 +416,16 @@ class XTESAlign:
         cps = self.x_corr(M1, M2)
         cps_real = np.abs(np.fft.ifft2(cps))
 
-        plt.figure()
-        plt.imshow(cps_real)
+        #plt.figure()
+        #plt.imshow(cps_real)
 
         # set first column of x-corr to zero (by design we don't expect that zoom = 1)
         cps_real[:, 0] = 0
         # restrict zoom to be within a certain range
         # cps_real[:, 32:] = 0
 
-#         plt.figure()
-#         plt.imshow(cps_real)
+        #plt.figure()
+        #plt.imshow(cps_real)
 
         # find correlation peak
         peak = np.unravel_index(np.argmax(cps_real), cps_real.shape)
@@ -438,11 +438,9 @@ class XTESAlign:
             scale = self.logbase**r1p[peak[1]]
 
         # determine rotation from peak location
-        print(peak[0])
-        print(theta1[peak[0], 0] * 180 / np.pi)
+        #print(theta1[peak[0], 0] * 180 / np.pi)
         # theta_offset = theta1[peak[0], 0] * 180 / np.pi + 18
-#         theta_offset = theta1[peak[0], 0] * 180 / np.pi + 90
-        theta_offset = theta1[peak[0],0] * 180/np.pi + 90
+        theta_offset = theta1[peak[0], 0] * 180 / np.pi + 90
 
         # get theta nearest to zero
         if theta_offset > 45:
@@ -450,8 +448,6 @@ class XTESAlign:
             #print(theta_offset)
         if theta_offset < -45:
             theta_offset = theta_offset + 90
-            
-        print(theta_offset)
 
         # get background value of image
         bgval = self.get_borderval(img)
@@ -478,8 +474,8 @@ class XTESAlign:
         cps = self.x_corr(F1, F2p)
         cps_real = np.fft.fftshift(np.abs(np.fft.ifft2(np.fft.fftshift(cps))))
 
-        plt.figure()
-        plt.imshow(cps_real)
+        #plt.figure()
+        #plt.imshow(cps_real)
 
         # find peak (relative to center)
         peak = np.unravel_index(np.argmax(cps_real), cps_real.shape)
@@ -518,7 +514,7 @@ class XTESAlign:
         if radius is None:
             mindim = min(img.shape)
             radius = max(1, mindim // 20)
-        mask = np.zeros_like(img, dtype=bool)
+        mask = np.zeros_like(img, dtype=np.bool)
         mask[:, :radius] = True
         mask[:, -radius:] = True
         mask[:radius, :] = True

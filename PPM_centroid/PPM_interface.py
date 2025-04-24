@@ -861,13 +861,13 @@ class PPM_Interface(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.groupBox_5.setStyleSheet("QGroupBox#WavefrontStatsGroupBox { border: 2px solid red;}")
 
-        x = data_dict['x']
-        y = data_dict['y']
-        image_data = data_dict['profile']
-        xlineout = data_dict['lineout_x']
-        ylineout = data_dict['lineout_y']
-        xprojection = data_dict['projection_x']
-        yprojection = data_dict['projection_y']
+        x = data_dict['np_x']
+        y = data_dict['np_y']
+        image_data = data_dict['np_profile']
+        xlineout = data_dict['np_lineout_x']
+        ylineout = data_dict['np_lineout_y']
+        xprojection = data_dict['np_projection_x']
+        yprojection = data_dict['np_projection_y']
         fit_x = data_dict['fit_x']
         fit_y = data_dict['fit_y']
 

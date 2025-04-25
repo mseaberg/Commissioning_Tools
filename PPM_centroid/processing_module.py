@@ -13,6 +13,8 @@ from analysis_tools import YagAlign
 from datetime import datetime
 from ophyd import EpicsSignalRO as SignalRO
 from imager_data import DataHandler
+import os.path
+import pickle
 
 
 class RunProcessing(QtCore.QObject):
@@ -26,6 +28,8 @@ class RunProcessing(QtCore.QObject):
 
         self.thread = thread
         self.hutch = hutch
+
+        self.hutch_path = '/cds/home/opr/{}opr'.format(self.hutch.lower())
 
         # get wavefront sensor (may be None)
         self.wfs_name = wfs_name
@@ -79,7 +83,15 @@ class RunProcessing(QtCore.QObject):
         order = 16
         ###### set up Legendre basis
         if self.wfs_name is not None:
-            fit_object = LegendreFit2D(Nd, Md, order)
+            # check if fit object file exists
+            basis_file = self.hutch_path+'/wfs_files/legendre_{}_{}_{}.pickle'.format(Nd,Md,order)
+            if os.path.isfile(basis_file):
+                with open(basis_file, 'rb') as f:
+                    fit_object = pickle.load(f)
+            else:
+                fit_object = LegendreFit2D(Nd, Md, order)
+                with open(basis_file, 'wb') as f:
+                    pickle.dump(fit_object, f)
             self.PPM_object.add_fit_object(fit_object)
         self.running = True
         self.sig_initialized.emit()

@@ -792,7 +792,7 @@ class PPM_Interface(QtWidgets.QMainWindow, Ui_MainWindow):
         # make sure a file name was chosen
         if not filename[0] == '':
             # normalize the image and write to file
-            im = App.normalize_image(self.data_handler.data_dict['profile'])
+            im = App.normalize_image(self.data_handler.data_dict['np_profile'])
             filename = PPM_Interface.get_filename(filename, fmt='.png')
             imageio.imwrite(filename,im)
         print(filename)

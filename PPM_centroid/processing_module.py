@@ -13,9 +13,10 @@ from analysis_tools import YagAlign
 from datetime import datetime
 from ophyd import EpicsSignalRO as SignalRO
 from imager_data import DataHandler
+from cupyx.scipy.interpolate import RegularGridInterpolator
 import os.path
 import pickle
-
+import cupy as cp
 
 class RunProcessing(QtCore.QObject):
     sig = QtCore.pyqtSignal()
@@ -45,6 +46,21 @@ class RunProcessing(QtCore.QObject):
         if wfs_name is not None:
             # need to make fraction more accessible...
             self.WFS_object = optics.WFS_Device(wfs_name, fraction=fraction)
+
+            coord_file = self.hutch_path+'/wfs_files/{}.npz'.format(imager_prefix[0:5])
+            if os.path.isfile(coord_file):
+
+                # load distortion coordinates
+                coord = np.load(self.hutch_path+'/wfs_files/{}.npz'.format(imager_prefix[0:5]))
+                self.x0 = cp.asarray(coord['x0'])
+                self.y0 = cp.asarray(coord['y0'])
+                self.xI = cp.asarray(coord['xI'])
+                self.yI = cp.asarray(coord['yI'])
+            else:
+                self.x0 = None
+                self.y0 = None
+                self.xI = None
+                self.yI = None
         else:
             self.WFS_object = None
 
@@ -138,6 +154,12 @@ class RunProcessing(QtCore.QObject):
 
             # wavefront sensing
             if self.WFS_object is not None:
+                if self.x0 is not None:
+                    print('accounting for distortion...')
+                    f = RegularGridInterpolator((self.y0[:4096,0],self.x0[0,:4096]),self.PPM_object.profile,bounds_error=False,fill_value=None)
+                    self.PPM_object.profile = f((self.yI[:4096,:4096],self.xI[:4096,:4096]))
+                    print('distortion corrected')
+
                 wfs_data, wfs_param = self.PPM_object.retrieve_wavefront(self.WFS_object, focusFOV=focusFOV, focus_z=focus_z)
             else:
                 wfs_data = None

@@ -110,6 +110,7 @@ class WFSControls(Qwfs, Ui_wfs):
         
         self.fractionLineEdit.returnPressed.connect(self.set_fraction)
         self.expertButton.pressed.connect(self.open_expert_screen)
+        self.nominalButton.pressed.connect(self.auto_configure)
 
     def set_fraction(self):
         self.fractionReadback.setText(self.fractionLineEdit.text())

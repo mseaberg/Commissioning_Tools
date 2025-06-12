@@ -43,6 +43,10 @@ class RunProcessing(QtCore.QObject):
         # set threshold attribute (defaults to 0.1)
         self.threshold = threshold
 
+        
+        # PPM object for image acquisition and processing
+        self.PPM_object = optics.PPM_Device(imager_prefix, average=averageWidget, threshold=self.threshold)
+
         if wfs_name is not None:
             # need to make fraction more accessible...
             self.WFS_object = optics.WFS_Device(wfs_name, fraction=fraction)
@@ -51,21 +55,13 @@ class RunProcessing(QtCore.QObject):
             if os.path.isfile(coord_file):
 
                 # load distortion coordinates
-                coord = np.load(self.hutch_path+'/wfs_files/{}.npz'.format(imager_prefix[0:5]))
-                self.x0 = cp.asarray(coord['x0'])
-                self.y0 = cp.asarray(coord['y0'])
-                self.xI = cp.asarray(coord['xI'])
-                self.yI = cp.asarray(coord['yI'])
+                self.coord = np.load(self.hutch_path+'/wfs_files/{}.npz'.format(imager_prefix[0:5]))
+
             else:
-                self.x0 = None
-                self.y0 = None
-                self.xI = None
-                self.yI = None
+                self.coord = None
         else:
             self.WFS_object = None
-
-        # PPM object for image acquisition and processing
-        self.PPM_object = optics.PPM_Device(imager_prefix, average=averageWidget, threshold=self.threshold)
+            self.coord = None
 
         # frame rate initialization
         self.fps = 0.
@@ -89,7 +85,7 @@ class RunProcessing(QtCore.QObject):
             self.data_handler.initialize(self.PPM_object)
 
         # downsampling is hard-coded here for now
-        downsample = 3
+        downsample = 4
 
         # calculate downsampled array sizes
         Nd = int(self.PPM_object.N / (2 ** downsample))
@@ -130,7 +126,7 @@ class RunProcessing(QtCore.QObject):
 
     def set_orientation(self, orientation):
         self.PPM_object.set_orientation(orientation)
-
+        
     def get_FOV(self):
         width = self.PPM_object.FOV
         height = np.copy(width)
@@ -150,16 +146,10 @@ class RunProcessing(QtCore.QObject):
                 focus_z = 0.0
 
             # get latest image
-            self.PPM_object.get_image(angle=angle)
+            self.PPM_object.get_image(angle=angle,distortion_coords=self.coord)
 
             # wavefront sensing
             if self.WFS_object is not None:
-                if self.x0 is not None:
-                    print('accounting for distortion...')
-                    f = RegularGridInterpolator((self.y0[:4096,0],self.x0[0,:4096]),self.PPM_object.profile,bounds_error=False,fill_value=None)
-                    self.PPM_object.profile = f((self.yI[:4096,:4096],self.xI[:4096,:4096]))
-                    print('distortion corrected')
-
                 wfs_data, wfs_param = self.PPM_object.retrieve_wavefront(self.WFS_object, focusFOV=focusFOV, focus_z=focus_z)
             else:
                 wfs_data = None

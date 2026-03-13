@@ -22,12 +22,25 @@ class RunProcessing(QtCore.QObject):
     sig_initialized = QtCore.pyqtSignal()
     sig_finished = QtCore.pyqtSignal()
 
-    def __init__(self, imager_prefix, data_handler, averageWidget, wfs_name=None, threshold=0.1, focusFOV=10, fraction=1, focus_z=0, displayWidget=None, thread=None, hutch=None):
+    def __init__(self, imager_prefix, data_handler, averageWidget, wfs_name=None, threshold=0.1, focusFOV=10, fraction=1, focus_z=0, displayWidget=None, thread=None, hutch=None, crossWidget=None):
         super(RunProcessing, self).__init__()
         #QtCore.QThread.__init__(self)
 
         self.thread = thread
         self.hutch = hutch
+
+        if crossWidget is not None:
+            try:
+                x1 = float(crossWidget.red_x.text())
+                y1 = float(crossWidget.red_y.text())
+                x2 = float(crossWidget.blue_x.text())
+                y2 = float(crossWidget.blue_y.text())
+                roi = [x1,y1,x2,y2]
+            except:
+                roi = None
+
+        else:
+            roi = None
 
         self.hutch_path = '/cds/home/opr/{}opr'.format(self.hutch.lower())
 
@@ -49,7 +62,7 @@ class RunProcessing(QtCore.QObject):
             self.WFS_object = None
 
         # PPM object for image acquisition and processing
-        self.PPM_object = optics.PPM_Device(imager_prefix, average=averageWidget, threshold=self.threshold)
+        self.PPM_object = optics.PPM_Device(imager_prefix, average=averageWidget, threshold=self.threshold,roi=roi)
 
         # frame rate initialization
         self.fps = 0.

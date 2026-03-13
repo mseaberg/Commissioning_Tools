@@ -670,8 +670,15 @@ class PPM_Interface(QtWidgets.QMainWindow, Ui_MainWindow):
             self.thread = QtCore.QThread()
 
             # initialize processing object. This really needs a dictionary as input...
-            self.processing = RunProcessing(self.imagerpv, self.data_handler, self.averageWidget, wfs_name=wfs_name,
+            
+            if self.imagerStats.roiCheckBox.isChecked():
+                self.processing = RunProcessing(self.imagerpv, self.data_handler, self.averageWidget, wfs_name=wfs_name,
+                                            threshold=self.imagerStats.get_threshold(), focusFOV=self.displayWidget.FOV, fraction=fraction, focus_z=self.displayWidget.focus_z, displayWidget=self.displayWidget, thread=self.thread, hutch=self.hutch,crossWidget=self.crosshairsWidget)
+            else:
+                self.processing = RunProcessing(self.imagerpv, self.data_handler, self.averageWidget, wfs_name=wfs_name,
                                             threshold=self.imagerStats.get_threshold(), focusFOV=self.displayWidget.FOV, fraction=fraction, focus_z=self.displayWidget.focus_z, displayWidget=self.displayWidget, thread=self.thread, hutch=self.hutch)
+
+
 
             # connect processing object to plotting function
             self.processing.sig.connect(self.update_plots)
@@ -719,6 +726,8 @@ class PPM_Interface(QtWidgets.QMainWindow, Ui_MainWindow):
             #self.runButton.setEnabled(True)
             # disable wavefront sensor checkbox until stop is pressed
             self.wavefrontCheckBox.setEnabled(False)
+            self.imagerStats.roiCheckBox.setEnabled(False)
+            self.imagerStats.thresholdLineEdit.setEnabled(False)
 
             # disable imager selection until Stop is pressed
             self.lineComboBox.setEnabled(False)
@@ -751,6 +760,8 @@ class PPM_Interface(QtWidgets.QMainWindow, Ui_MainWindow):
             # re-enable imager selection
             self.lineComboBox.setEnabled(True)
             self.imagerComboBox.setEnabled(True)
+            self.imagerStats.roiCheckBox.setEnabled(True)
+            self.imagerStats.thresholdLineEdit.setEnabled(True)
 
     @staticmethod
     def normalize_image(image):

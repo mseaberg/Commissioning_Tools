@@ -46,6 +46,13 @@
         "FOV": 0,
         "orientation": "action180"
     },
+    "IM5L0": {
+        "pixel": 2.875,
+        "z": 770,
+        "cx": 0,
+        "cy": 0,
+        "orientation": "action180"
+    },
     "IM1K0": {
         "pixel": 6.95,
         "zoom": 25,

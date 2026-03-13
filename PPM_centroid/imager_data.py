@@ -77,6 +77,9 @@ class DataHandler:
         # set initialized to False until we get an imager
         self.initialized = False
 
+        self.pv_keys = []
+        self.pv_names = []
+
         # initialize PPM_object to None
         self.imager = None
 
@@ -92,7 +95,7 @@ class DataHandler:
         self.im_M = self.imager.M
 
         # read pv keys
-        self.pv_keys, self.pv_names = self.read_pv_names()
+        #self.pv_keys, self.pv_names = self.read_pv_names()
 
         # initialize data dictionary entries
         self.reset_data()

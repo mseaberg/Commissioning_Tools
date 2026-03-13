@@ -64,7 +64,9 @@ class PPM_Interface(QtWidgets.QMainWindow, Ui_MainWindow):
         self.actionSave.triggered.connect(self.save_image)
         # open alignment screen for calculating center and pixel size
         self.actionAlignment_Screen.triggered.connect(self.run_alignment_screen)
-        self.actionSave_with_hdf5_plugin.triggered.connect(self.save_hdf5)
+        #self.actionSave_with_hdf5_plugin.triggered.connect(self.save_hdf5)
+        self.actionSave_with_hdf5_plugin.triggered.connect(self.capture_trajectory)
+
         self.actionPost_to_elog.triggered.connect(self.elog_post)
         self.trajectoryButton.clicked.connect(self.capture_trajectory)
 
@@ -510,7 +512,8 @@ class PPM_Interface(QtWidgets.QMainWindow, Ui_MainWindow):
         return basename
 
     def save_hdf5(self, basename=None):
-        if basename is None:
+        #if basename is None:
+        if not isinstance(basename,str):
             basename = self.get_basename()
         self.imager_h5.prepare(baseName=basename+'_images', nImages=10)
         self.imager_h5.write()

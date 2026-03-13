@@ -1,5 +1,6 @@
 #!/bin/env bash
 source /reg/g/pcds/pyps/apps/hutch-python/tmo/tmoenv
+#source /cds/home/s/seaberg/setup_PCDS.sh
 export PYTHONPATH=$PYTHONPATH:/cds/home/s/seaberg/Python/lcls_beamline_toolbox
 
 HERE=`dirname $(readlink -f $0)`

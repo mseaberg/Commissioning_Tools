@@ -174,6 +174,9 @@ class PPM_Interface(QtWidgets.QMainWindow, Ui_MainWindow):
         with open(self.local_path+'/imager_info.json') as json_file:
             self.imager_info = json.load(json_file)
 
+        with open(self.local_path + '/imagers.db') as json_file:
+            self.imager_metadata = json.load(json_file)
+
         # list of beamlines
         self.line_list = [key for key in self.imager_info]
 
@@ -181,7 +184,6 @@ class PPM_Interface(QtWidgets.QMainWindow, Ui_MainWindow):
         self.imager_dict = {}
         for line in self.line_list:
             self.imager_dict[line] = [key for key in self.imager_info[line]]
-
         # list of imagers with a wavefront sensor
         #self.WFS_list = ['IM2K0', 'IM2L0', 'IM5K4', 'IM6K4', 'IM6K2', 'IM3K3', 'IM4L1']
 
@@ -418,14 +420,11 @@ class PPM_Interface(QtWidgets.QMainWindow, Ui_MainWindow):
         """
         try:
             # read the imagers.db file
-            with open('/cds/home/s/seaberg/Commissioning_Tools/PPM_centroid/imagers.db') as json_file:
-                data = json.load(json_file)
+            #with open('/cds/home/s/seaberg/Commissioning_Tools/PPM_centroid/imagers.db') as json_file:
+            #    data = json.load(json_file)
             # set orientation from the file
-            self.orientation = data[self.imager]['orientation']
-            print('using orientation %s' % self.orientation)
-        except json.decoder.JSONDecodeError:
-            # catch the exception that the file doesn't exist
-            self.orientation = 'action0'
+            #self.orientation = data[self.imager]['orientation']
+            self.orientation = self.imager_metadata[self.imager]['orientation']
         except KeyError:
             # catch the exception that the orientation hasn't been saved for this imager
             print('orientation not set, using 0.')

@@ -15,11 +15,44 @@
     },
     "IM5L0": {
       "prefix": "IM5L0:PPM:"
+    },
+    "xcs_yag1": {
+      "prefix": "XCS:GIGE:YAG1:"
+    },
+    "mec_yag0": {
+      "prefix": "HXX:HXM:CVV:01:"
+    },
+    "xcs_yag2": {
+      "prefix": "HFX:DG2:CVV:01:"
+    },
+    "xcs_yag3": {
+      "prefix": "XCS:GIGE:YAG3:"
+    },
+    "xcs_yag3m": {
+      "prefix": "XCS:GIGE:YAG3M:"
+    },
+    "cxi_dg1_yag": {
+      "prefix": "CXI:DG1:P6740:"
+    },
+    "mfx_dg1_yag": {
+      "prefix": "MFX:GIGE:DG1:YAG:"
+    },
+    "mec_yag1": {
+      "prefix": "MEC:HXM:CVV:01:"
     }
   },
   "L1": {
     "IM1L1": {
       "prefix": "IM1L1:PPM:"
+    },
+    "IM2L1": {
+      "prefix": "IM2L1:PPM:"
+    },
+    "IM3L1": {
+      "prefix": "IM3L1:PPM:"
+    },
+    "IM4L1": {
+      "prefix": "IM4L1:PPM:"
     }
   },
   "L2": {

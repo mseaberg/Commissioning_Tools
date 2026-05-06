@@ -204,8 +204,13 @@ class ImagerControls(QImager, Ui_Imager):
         self.change_channel(self.focusLineEdit, 'CLF.VAL')
         self.change_channel(self.ndStateReadback, 'MFW:GET_RBV')
         self.change_channel(self.ndStateComboBox, 'MFW:SET')
-        self.change_channel(self.acquireReadback, 'CAM:AcquireTime_RBV')
-        self.change_channel(self.acquireLineEdit, 'CAM:AcquireTime')
+        if 'L2' not in imager_prefix:
+            self.change_channel(self.acquireReadback, 'CAM:AcquireTime_RBV')
+            self.change_channel(self.acquireLineEdit, 'CAM:AcquireTime')
+        else:
+            self.change_channel(self.acquireReadback, 'CAM:01:AcquireTime_RBV')
+            self.change_channel(self.acquireLineEdit, 'CAM:01:AcquireTime')
+
         self.change_channel(self.yPosReadback, 'MMS.RBV')
         self.change_channel(self.yPosLineEdit, 'MMS.VAL')
 
@@ -386,36 +391,51 @@ class ImagerStats(QImagerStats, Ui_ImagerStats):
             self.ref_circle.setPen(QtGui.QPen(QtCore.Qt.white, self.thickness, Qt.SolidLine))
 
     def change_imager(self, imager_prefix):
-        with open('/cds/home/s/seaberg/Commissioning_Tools/PPM_centroid/imagers.db') as json_file:
-            data = json.load(json_file)
-           
-            key_name = imager_prefix[0:5]
-            if 'MONO' in imager_prefix:
-                if '3' in imager_prefix:
-                    key_name = 'MONO_03'
-                elif '4' in imager_prefix:
-                    key_name = 'MONO_04'
+        #with open('/cds/home/s/seaberg/Commissioning_Tools/PPM_centroid/imagers.db') as json_file:
+        #    data = json.load(json_file)
+        #   
+        #    key_name = imager_prefix[0:5]
+        #    if 'MONO' in imager_prefix:
+        #        if '3' in imager_prefix:
+        #            key_name = 'MONO_03'
+        #        elif '4' in imager_prefix:
+        #            key_name = 'MONO_04'
 
-            try:
-                imager_data = data[key_name]
-            except KeyError:
-                imager_data = {}
-            #imager_data = data[self.epics_name[0:5]]
+        #    try:
+        #        imager_data = data[key_name]
+        #    except KeyError:
+        #        imager_data = {}
+        #    #imager_data = data[self.epics_name[0:5]]
 
-            try:
-                xRef = int(imager_data['cx'])
-                yRef = int(imager_data['cy'])
-            except KeyError:
-                xRef = int(0)
-                yRef = int(0)
+        #    try:
+        #        xRef = int(imager_data['cx'])
+        #        yRef = int(imager_data['cy'])
+        #    except KeyError:
+        #        xRef = int(0)
+        #        yRef = int(0)
 
+        #    x2 = PV(imager_prefix + 'CAM:X_RTCL_CTR').get()
+        #    y2 = PV(imager_prefix + 'CAM:Y_RTCL_CTR').get()
+
+        #    if x2 is not None:
+        #        xRef = x2
+        #    if y2 is not None:
+        #        yRef = y2
+        xRef = 0
+        yRef = 0
+        if 'L2' in imager_prefix:
+            x2 = PV(imager_prefix + 'CAM:01:X_RTCL_CTR').get()
+            y2 = PV(imager_prefix + 'CAM:01:Y_RTCL_CTR').get()
+
+        else:
             x2 = PV(imager_prefix + 'CAM:X_RTCL_CTR').get()
             y2 = PV(imager_prefix + 'CAM:Y_RTCL_CTR').get()
 
-            if x2 is not None:
-                xRef = x2
-            if y2 is not None:
-                yRef = y2
+        if x2 is not None:
+            xRef = x2
+        if y2 is not None:
+            yRef = y2
+
         self.xReferenceLabel.setText('X: {:d}\u03BCm'.format(int(xRef)))
         self.yReferenceLabel.setText('Y: {:d}\u03BCm'.format(int(yRef)))
 

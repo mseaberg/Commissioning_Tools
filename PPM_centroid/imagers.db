@@ -8,7 +8,8 @@
         "z": 699.558,
         "cx": 0,
         "cy": 0,
-        "FOV": 0
+        "FOV": 0,
+        "orientation": "action180"
     },
     "IM3L0": {
         "pixel": 2.7216615182062647,
@@ -58,7 +59,7 @@
         "z": 787.73,
         "cx": 0,
         "cy": 0,
-        "orientation": "action180"
+        "orientation": "action0"
     },
     "IM2L2": {
         "pixel": 2.875,
@@ -220,7 +221,6 @@
         "cx": 0,
         "cy": 0
     },
-
     "MONO_03": {
         "pixel": 1,
         "orientation": "action0",

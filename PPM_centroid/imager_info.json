@@ -55,6 +55,15 @@
       "prefix": "IM4L1:PPM:"
     }
   },
+  "L2": {
+      "IM1L2": {
+          "prefix": "IM1L2:PPM:"
+      },
+      "IM2L2": {
+          "prefix": "IM2L2:PPM:",
+          "wfs": "PF2L2"
+      }
+  },
   "K0": {
     "IM1K0": {
       "prefix": "IM1K0:XTES:"

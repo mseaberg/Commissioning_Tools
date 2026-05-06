@@ -48,10 +48,24 @@
     },
     "IM5L0": {
         "pixel": 2.875,
-        "z": 770,
+        "z": 779.053,
         "cx": 0,
         "cy": 0,
         "orientation": "action180"
+    },
+    "IM1L2": {
+        "pixel": 1.709,
+        "z": 787.73,
+        "cx": 0,
+        "cy": 0,
+        "orientation": "action180"
+    },
+    "IM2L2": {
+        "pixel": 2.875,
+        "z": 799.642,
+        "cx": 0,
+        "cy": 0,
+        "orientation": "action0"
     },
     "IM1K0": {
         "pixel": 6.95,

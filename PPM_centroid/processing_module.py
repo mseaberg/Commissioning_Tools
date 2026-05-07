@@ -43,6 +43,8 @@ class RunProcessing(QtCore.QObject):
             roi = None
 
         self.hutch_path = '/cds/home/opr/{}opr'.format(self.hutch.lower())
+        if 'L2' in imager_prefix:
+            self.hutch_path = '/sdf/home/x/xppopr'
 
         # get wavefront sensor (may be None)
         self.wfs_name = wfs_name

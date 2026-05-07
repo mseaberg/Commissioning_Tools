@@ -96,7 +96,7 @@
       </size>
      </property>
      <property name="text">
-      <string>Restore nominal settings</string>
+      <string>Auto-configure</string>
      </property>
     </widget>
    </item>

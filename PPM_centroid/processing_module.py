@@ -13,9 +13,10 @@ from analysis_tools import YagAlign
 from datetime import datetime
 from ophyd import EpicsSignalRO as SignalRO
 from imager_data import DataHandler
+from cupyx.scipy.interpolate import RegularGridInterpolator
 import os.path
 import pickle
-
+import cupy as cp
 
 class RunProcessing(QtCore.QObject):
     sig = QtCore.pyqtSignal()
@@ -42,14 +43,25 @@ class RunProcessing(QtCore.QObject):
         # set threshold attribute (defaults to 0.1)
         self.threshold = threshold
 
+        
+        # PPM object for image acquisition and processing
+        self.PPM_object = optics.PPM_Device(imager_prefix, average=averageWidget, threshold=self.threshold)
+
         if wfs_name is not None:
             # need to make fraction more accessible...
             self.WFS_object = optics.WFS_Device(wfs_name, fraction=fraction)
+
+            coord_file = self.hutch_path+'/wfs_files/{}.npz'.format(imager_prefix[0:5])
+            if os.path.isfile(coord_file):
+
+                # load distortion coordinates
+                self.coord = np.load(self.hutch_path+'/wfs_files/{}.npz'.format(imager_prefix[0:5]))
+
+            else:
+                self.coord = None
         else:
             self.WFS_object = None
-
-        # PPM object for image acquisition and processing
-        self.PPM_object = optics.PPM_Device(imager_prefix, average=averageWidget, threshold=self.threshold)
+            self.coord = None
 
         # frame rate initialization
         self.fps = 0.
@@ -73,7 +85,7 @@ class RunProcessing(QtCore.QObject):
             self.data_handler.initialize(self.PPM_object)
 
         # downsampling is hard-coded here for now
-        downsample = 3
+        downsample = 4
 
         # calculate downsampled array sizes
         Nd = int(self.PPM_object.N / (2 ** downsample))
@@ -114,7 +126,7 @@ class RunProcessing(QtCore.QObject):
 
     def set_orientation(self, orientation):
         self.PPM_object.set_orientation(orientation)
-
+        
     def get_FOV(self):
         width = self.PPM_object.FOV
         height = np.copy(width)
@@ -134,7 +146,7 @@ class RunProcessing(QtCore.QObject):
                 focus_z = 0.0
 
             # get latest image
-            self.PPM_object.get_image(angle=angle)
+            self.PPM_object.get_image(angle=angle,distortion_coords=self.coord)
 
             # wavefront sensing
             if self.WFS_object is not None:

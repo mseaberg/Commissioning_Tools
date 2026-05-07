@@ -150,7 +150,9 @@
     },
     "IM6K4": {
       "prefix": "IM6K4:PPM:",
-      "wfs": "PF2K4"
+      "wfs": "PF2K4",
+      "hutch": "tmo",
+      "IP": "IP2"
     }
   },
   "MONO": {

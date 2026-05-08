@@ -694,6 +694,9 @@ class PPM_Interface(QtWidgets.QMainWindow, Ui_MainWindow):
             self.imageWidget.update_viewbox(width, height)
             if self.displayWidget.display_choice == 'Focus':
                 self.wavefrontWidget.update_viewbox(self.displayWidget.FOV, self.displayWidget.FOV)
+            elif self.displayWidget.display_choice == 'Fourier transform':
+                FFT_width = 1/self.processing.PPM_object.dxm
+                self.wavefrontWidget.update_viewbox(FFT_width,FFT_width)
             else:
                 # this would eventually change for the FFT option
                 self.wavefrontWidget.update_viewbox(width, height)

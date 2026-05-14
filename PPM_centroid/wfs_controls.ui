@@ -183,7 +183,7 @@
    <item row="3" column="2">
     <widget class="QLineEdit" name="fractionLineEdit">
      <property name="text">
-      <string>3</string>
+      <string>1</string>
      </property>
     </widget>
    </item>
@@ -197,7 +197,7 @@
    <item row="3" column="1">
     <widget class="QLabel" name="fractionReadback">
      <property name="text">
-      <string>3</string>
+      <string>1</string>
      </property>
     </widget>
    </item>

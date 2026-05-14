@@ -1,6 +1,6 @@
 #!/bin/env bash
 source /reg/g/pcds/pyps/apps/hutch-python/xpp/xppenv
-export PYTHONPATH=$PYTHONPATH:/cds/home/s/seaberg/Python/lcls_beamline_toolbox
+export PYTHONPATH=$PYTHONPATH:/cds/home/s/seaberg/XPP_comm/lcls_beamline_toolbox
 
 HERE=`dirname $(readlink -f $0)`
 

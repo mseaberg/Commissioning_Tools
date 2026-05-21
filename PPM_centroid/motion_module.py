@@ -127,7 +127,7 @@ class Alignment(QtCore.QObject):
 class Motor():
     def __init__(self, pv_name):
         self.setpoint = Signal(pv_name)
-        self.rbv = SignalRO(pv_name+'.RBV', auto_monitor=True)
+        self.rbv = SignalRO(pv_name+'.RBV')
 
     def mv(self, target, wait=False, tol=0.1):
         self.set(target)
@@ -140,7 +140,7 @@ class Motor():
         self.mv(target, wait=wait, tol=tol)
 
     def get(self):
-        return self.rbv.value
+        return self.rbv.get()
 
     def set(self, target):
         self.setpoint.set(target)

@@ -16,19 +16,19 @@
     "IM5L0": {
       "prefix": "IM5L0:PPM:"
     },
-    "xcs_yag1": {
-      "prefix": "XCS:GIGE:YAG1:"
+    "xrt_yag1": {
+      "prefix": "XRT:DG1:GIGE:01:"
     },
     "mec_yag0": {
       "prefix": "HXX:HXM:CVV:01:"
     },
-    "xcs_yag2": {
-      "prefix": "HFX:DG2:CVV:01:"
+    "xrt_yag2": {
+      "prefix": "XRT:DG2:GIGE:01:"
+    },
+    "xrt_yag3": {
+      "prefix": "XRT:DG3:GIGE:01:"
     },
     "xcs_yag3": {
-      "prefix": "XCS:GIGE:YAG3:"
-    },
-    "xcs_yag3m": {
       "prefix": "XCS:GIGE:YAG3M:"
     },
     "cxi_dg1_yag": {
@@ -112,13 +112,6 @@
       "vfm": "MR4K2:KBV",
       "hutch": "rix",
       "IP": "chemRIXS"
-    },
-    "IM7K2": {
-      "prefix": "IM7K2:PPM:",
-      "wfs": "PF3K2",
-      "hfm": "MR3K2:KBH",
-      "vfm": "MR4K2:KBV",
-      "hutch": "rix"
     }
   },
   "K3": {

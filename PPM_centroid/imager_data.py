@@ -218,7 +218,7 @@ class DataHandler:
         # update pv's
         for key in self.pv_keys:
             try:
-                new_data = self.epics_signals[key].value
+                new_data = self.epics_signals[key].get()
                 self.update_1d_data(key, new_data)
             except ReadTimeoutError:
                 self.update_1d_data(key, np.nan)
@@ -301,7 +301,7 @@ class DataHandler:
     def connect_epics_pvs(self):
         # add pv's to data_dict
         for key, name in zip(self.pv_keys,self.pv_names):
-            tempSignal = SignalRO(name, auto_monitor=True)
+            tempSignal = SignalRO(name)
             try:
                 tempSignal.wait_for_connection()
                 print('connected to %s' % key)
